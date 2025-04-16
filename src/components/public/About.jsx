@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from '../ui/Button'
 import slide1 from '../../assets/img/3.jpg'
-import slide2 from '../../assets/img/6.jpg'
+import slide2 from '../../assets/img/4.jpg'
 import slide3 from '../../assets/img/7.jpg'
 import slide4 from '../../assets/img/8.jpg'
 import slide5 from '../../assets/img/11.jpg'
@@ -116,7 +116,7 @@ function About() {
 
       <div className='space-y-3'>
         <p className='uppercase text-xs md:text-md font-bold text-secondary'>Une vision nouvelle pour une agriculture durable</p>
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold capitalize text-secondary'>Nous connectons les acteurs de l'agriculture africaine</h2>
+        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase text-secondary'>Nous connectons les acteurs de l'agriculture africaine</h2>
         <p>
             SAGRI & TM est bien plus qu’un marketplace : c’est un écosystème pensé pour 
             transformer l’agriculture africaine. Nous croyons en une chaîne de valeur 

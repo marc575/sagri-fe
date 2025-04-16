@@ -18,7 +18,7 @@ function Contact() {
         <div className='space-y-3'>
         <div className='flex flex-col lg:flex-row justify-between gap-5'>
             <div className='space-y-5 text-white'> 
-                <h2 className='text-xl md:text-3xl xl:text-4xl font-bold capitalize text-center md:text-start'>Écrivez-nous dès maintenant !</h2>
+                <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase text-center md:text-start'>Écrivez-nous dès maintenant !</h2>
                 <p className='mb-10 text-center md:text-start'>Une question ? Une idée ? Contactez-nous !</p>
                 <div className='text-white flex flex-wrap lg:gap-15 gap-8'>
                     <div className='flex gap-5'>

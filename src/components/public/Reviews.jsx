@@ -51,9 +51,9 @@ function Reviews() {
     };
 
   return (
-    <div className='bg-[#FFFEF3]' id='reviews'>
+    <div className='bg-base-200' id='reviews'>
       <div className='py-18 container mx-auto px-4 text-center sm:px-6 space-y-5'>
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold lg:w-1/2 mx-auto text-secondary'>Ce qu’ils disent de nous !</h2>
+        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold lg:w-1/2 mx-auto text-secondary uppercase'>Ce qu’ils disent de nous !</h2>
         <p className='lg:w-2/3 mx-auto text-md'>
             Nos utilisateurs partagent leur expérience avec la plateforme SAGRI & TM. 
             Découvrez comment notre solution a changé leur manière de produire, 
@@ -105,7 +105,7 @@ function Reviews() {
 
 const cardReviews = (rating, name, jobprofile, message) => {
     return (
-        <div className='card card-dash p-6 space-y-3 bg-[#FDFAD0] shadow-md sm:w-full'>
+        <div className='card card-dash p-6 space-y-3 bg-base-200 shadow-md sm:w-full'>
             <div className='flex gap-5 items-center justify-between'>
                 {renderStars(rating)}
                 <img src={rightQuote} alt="" />

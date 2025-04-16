@@ -17,7 +17,7 @@ function Services() {
     <div className='relative' id='services'>
     <div className='py-18 container mx-auto px-4 sm:px-6'>
       <div className="flex-col md:flex md:flex-row gap-4 space-y-6 ">
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold md:w-1/2 text-secondary'>NOS SERVICES</h2>
+        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase md:w-1/2 text-secondary'>NOS SERVICES</h2>
         <p>
             SAGRI & TM vous offre une plateforme innovante pensée 
             pour connecter efficacement producteurs agricoles et acheteurs, 

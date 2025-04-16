@@ -14,10 +14,10 @@ function Faqs() {
           borderRadius: '0 0 10px 10px'
       }}>
       </div>
-      <div className='flex flex-col lg:flex-row justify-between items-center gap-5 mx-2 md:mx-10 shadow-md px-5 md:p-8 rounded-xl absolute top-2/3 bg-white'>
+      <div className='flex flex-col lg:flex-row justify-between items-center gap-5 mx-2 md:mx-10 shadow-md px-5 md:p-8 rounded-xl absolute top-2/3 bg-base-100'>
         <img src={faq} alt="" className='w-full md:w-1/2' />
         <div className='space-y-3'>
-          <h2 className='text-xl md:text-3xl xl:text-4xl font-bold capitalize text-secondary'>Questions Fréquemment Posées</h2>
+          <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase text-secondary'>Questions Fréquemment Posées</h2>
           <p>Voici les réponses aux questions les plus courantes à propos de l’utilisation de la plateforme.</p>
 
           <div className="collapse collapse-plus bg-base-100 border border-base-300">
