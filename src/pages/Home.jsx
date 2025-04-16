@@ -6,6 +6,7 @@ import About from '../components/public/About'
 import Reviews from '../components/public/Reviews'
 import Faqs from '../components/public/Faqs'
 import Contact from '../components/public/Contact'
+import Footer from '../components/public/Footer'
 
 function Home() {
   return (
@@ -17,6 +18,7 @@ function Home() {
       <Reviews />
       <Faqs />
       <Contact />
+      <Footer />
     </>
   )
 }

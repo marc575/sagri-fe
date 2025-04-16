@@ -14,10 +14,10 @@ function Services() {
   ]
 
   return (
-    <div className=' relative'>
-    <div className='py-12 container mx-auto px-4 sm:px-6'>
+    <div className='relative' id='services'>
+    <div className='py-18 container mx-auto px-4 sm:px-6'>
       <div className="flex-col md:flex md:flex-row gap-4 space-y-6 ">
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold md:w-1/2'>NOS SERVICES</h2>
+        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold md:w-1/2 text-secondary'>NOS SERVICES</h2>
         <p>
             SAGRI & TM vous offre une plateforme innovante pensée 
             pour connecter efficacement producteurs agricoles et acheteurs, 
@@ -39,7 +39,7 @@ const ServiceItem = ({titre, content, img}) =>  {
     return (
         <div className="card card-dash bg-base-100 shadow-md md:shadow-xl space-y-3 rounded-xl">
           <div className="card-body">
-            <h4 className='text-md font-semibold'>{titre}</h4>
+            <h4 className='text-md font-semibold text-primary'>{titre}</h4>
             <p className='text-xs'>
                 {content}
             </p>

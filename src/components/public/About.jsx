@@ -30,7 +30,7 @@ function About() {
     }, []);
 
   return (
-    <div className='py-12 container mx-auto px-4 sm:px-6'>
+    <div className='py-18 container mx-auto px-4 sm:px-6' id='about'>
     <div className='flex flex-col lg:flex-row justify-between items-center gap-10'>
         <div className="carousel">
         {/* Slide 1 */}
@@ -115,8 +115,8 @@ function About() {
       </div>
 
       <div className='space-y-3'>
-        <p className='uppercase text-xs md:text-md font-bold'>Une vision nouvelle pour une agriculture durable</p>
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold capitalize'>Nous connectons les acteurs de l'agriculture africaine</h2>
+        <p className='uppercase text-xs md:text-md font-bold text-secondary'>Une vision nouvelle pour une agriculture durable</p>
+        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold capitalize text-secondary'>Nous connectons les acteurs de l'agriculture africaine</h2>
         <p>
             SAGRI & TM est bien plus qu’un marketplace : c’est un écosystème pensé pour 
             transformer l’agriculture africaine. Nous croyons en une chaîne de valeur 
