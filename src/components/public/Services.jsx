@@ -15,7 +15,7 @@ function Services() {
 
   return (
     <div className=' relative'>
-    <div className='py-18 container mx-auto px-4 sm:px-6'>
+    <div className='py-12 container mx-auto px-4 sm:px-6'>
       <div className="flex-col md:flex md:flex-row gap-4 space-y-6 ">
         <h2 className='text-xl md:text-3xl xl:text-4xl font-bold md:w-1/2'>NOS SERVICES</h2>
         <p>
@@ -30,7 +30,7 @@ function Services() {
         ))}
       </div>
     </div>
-    <div className='bg-[#8B5E2A] h-24 absolute top-3/4 left-0 -z-1 w-full'></div>
+    <div className='bg-[#8B5E2A] h-24 absolute lg:top-3/4 bottom-0 left-0 -z-1 w-full'></div>
     </div>
   )
 }
