@@ -5,6 +5,7 @@ import Services from '../components/public/Services'
 import About from '../components/public/About'
 import Reviews from '../components/public/Reviews'
 import Faqs from '../components/public/Faqs'
+import Contact from '../components/public/Contact'
 
 function Home() {
   return (
@@ -15,6 +16,7 @@ function Home() {
       <About />
       <Reviews />
       <Faqs />
+      <Contact />
     </>
   )
 }
