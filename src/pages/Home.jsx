@@ -13,8 +13,8 @@ function Home() {
     <>
       <TopNav />
       <Hero />
-      <Services />
       <About />
+      <Services />
       <Reviews />
       <Faqs />
       <Contact />

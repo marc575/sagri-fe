@@ -9,7 +9,7 @@ function Footer() {
   return (
     <div className='container mx-auto px-4 sm:px-6'>
     <div className='flex flex-col md:flex-row justify-between gap-5 items-center'>
-      <img src={logo} alt="logo" width="80" className='rounded-xl'/>
+      <img src={logo} alt="logo" width="50" className='rounded-xl'/>
       <p className='font-semibold text-white text-center'>&copy; Copyrights, 2025 Tous droits reservés, <a className='text-primary' href="https://www.linkedin.com/in/marc-tatchou-85891a243/">Tatchou Marc</a></p>
       <div className='flex gap-5'>
         <a href=""><img src={l} alt="" width="30" /></a>

@@ -51,7 +51,7 @@ function Reviews() {
     };
 
   return (
-    <div className='bg-base-200' id='reviews'>
+    <div className='bg-base-100' id='reviews'>
       <div className='py-18 container mx-auto px-4 text-center sm:px-6 space-y-5'>
         <h2 className='text-xl md:text-3xl xl:text-4xl font-bold lg:w-1/2 mx-auto text-secondary uppercase'>Ce qu’ils disent de nous !</h2>
         <p className='lg:w-2/3 mx-auto text-md'>

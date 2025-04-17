@@ -4,7 +4,8 @@ import faq from '../../assets/img/14.png';
 
 function Faqs() {
   return (
-    <div className='container pb-18 mx-auto sm:px-6 relative' id='faqs'>
+    <div id='faqs'>
+    <div className='container pb-18 mx-auto sm:px-6 relative'>
       <div
         className='h-120' 
         style={{
@@ -14,7 +15,7 @@ function Faqs() {
           borderRadius: '0 0 10px 10px'
       }}>
       </div>
-      <div className='flex flex-col lg:flex-row justify-between items-center gap-5 mx-2 md:mx-10 shadow-md px-5 md:p-8 rounded-xl absolute top-2/3 bg-base-100'>
+      <div className='flex flex-col lg:flex-row justify-between items-center py-5 gap-5 mx-2 md:mx-10 shadow-md px-5 md:p-8 rounded-xl absolute top-2/3 bg-base-200'>
         <img src={faq} alt="" className='w-full md:w-1/2' />
         <div className='space-y-3'>
           <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase text-secondary'>Questions Fréquemment Posées</h2>
@@ -37,6 +38,7 @@ function Faqs() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

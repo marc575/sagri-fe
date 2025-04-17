@@ -14,7 +14,7 @@ function Services() {
   ]
 
   return (
-    <div className='relative' id='services'>
+    <div className='relative bg-base-200' id='services'>
     <div className='py-18 container mx-auto px-4 sm:px-6'>
       <div className="flex-col md:flex md:flex-row gap-4 space-y-6 ">
         <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase md:w-1/2 text-secondary'>NOS SERVICES</h2>
@@ -30,7 +30,7 @@ function Services() {
         ))}
       </div>
     </div>
-    <div className='bg-[#8B5E2A] h-24 absolute lg:top-3/4 bottom-0 left-0 -z-1 w-full'></div>
+    <div className='bg-base-100 h-24 absolute lg:top-3/4 bottom-0 left-0 -z-10 w-full'></div>
     </div>
   )
 }

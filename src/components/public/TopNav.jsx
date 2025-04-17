@@ -14,7 +14,7 @@ export default function TopNav() {
                 </div>
                 <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 text-[#FDFAD0] mt-3 w-52 p-2 shadow font-bold">
+                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 text-base-200 mt-3 w-52 p-2 shadow font-bold">
                     <li>
                         <a>Accueil</a>
                     </li>
@@ -49,7 +49,7 @@ export default function TopNav() {
             </div>
             <div className="navbar-end gap-5 items-center">
                 <ThemeSwitcher />
-                <Button className="btn btn-secondary">Nous Rejoindre</Button>
+                <Button className="btn btn-secondary">Se Connecter</Button>
             </div>
         </div>
     </>
