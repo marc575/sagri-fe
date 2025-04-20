@@ -16,16 +16,22 @@ export default function TopNav() {
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 text-base-200 mt-3 w-52 p-2 shadow font-bold">
                     <li>
-                        <a>Accueil</a>
+                        <a href='#hero'>Accueil</a>
                     </li>
                     <li>
-                        <a>A Propos</a>
+                        <a href='#about'>A Propos</a>
                     </li>
                     <li>
-                        <a>Services</a>
+                        <a href='#features'>Services</a>
                     </li>
                     <li>
-                        <a>Contact</a>
+                        <a href='#reviews'>Avis Clients</a>
+                    </li>
+                    <li>
+                        <a href='#faqs'>FAQs</a>
+                    </li>
+                    <li>
+                        <a href='#contact'>Contact</a>
                     </li>
                 </ul>
                 </div>
@@ -34,22 +40,28 @@ export default function TopNav() {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 font-medium text-[1rem] text-[#FDFAD0]">
                     <li>
-                        <a>Accueil</a>
+                        <a href='#hero'>Accueil</a>
                     </li>
                     <li>
-                        <a>A Propos</a>
+                        <a href='#about'>A Propos</a>
                     </li>
                     <li>
-                        <a>Services</a>
+                        <a href='#features'>Services</a>
                     </li>
                     <li>
-                        <a>Contact</a>
+                        <a href='#reviews'>Avis Clients</a>
+                    </li>
+                    <li>
+                        <a href='#faqs'>FAQs</a>
+                    </li>
+                    <li>
+                        <a href='#contact'>Contact</a>
                     </li>
                 </ul>
             </div>
             <div className="navbar-end gap-5 items-center">
                 <ThemeSwitcher />
-                <Button className="btn btn-secondary">Se Connecter</Button>
+                <Button className="btn btn-secondary" href='/login'>Se Connecter</Button>
             </div>
         </div>
     </>

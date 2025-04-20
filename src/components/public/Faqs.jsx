@@ -9,16 +9,16 @@ function Faqs() {
       <div
         className='h-120' 
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)),
           url(${img})`,
           backgroundPosition: 'center center',
           borderRadius: '0 0 10px 10px'
       }}>
       </div>
-      <div className='flex flex-col lg:flex-row justify-between items-center py-5 gap-5 mx-2 md:mx-10 shadow-md px-5 md:p-8 rounded-xl absolute top-2/3 bg-base-200'>
+      <div className='flex flex-col lg:flex-row justify-between items-center py-5 gap-5 mx-4 md:mx-18 shadow-md px-5 md:p-8 rounded-xl absolute top-2/3 left-0 bg-base-200'>
         <img src={faq} alt="" className='w-full md:w-1/2' />
-        <div className='space-y-3'>
-          <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase text-secondary'>Questions Fréquemment Posées</h2>
+        <div className='space-y-3 mt-10 md:mt-0'>
+          <h2 className='text-xl xl:text-2xl font-bold uppercase text-secondary'>Questions Fréquemment Posées</h2>
           <p>Voici les réponses aux questions les plus courantes à propos de l’utilisation de la plateforme.</p>
 
           <div className="collapse collapse-plus bg-base-100 border border-base-300">

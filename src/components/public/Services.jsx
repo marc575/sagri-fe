@@ -14,17 +14,17 @@ function Services() {
   ]
 
   return (
-    <div className='relative bg-base-200' id='services'>
+    <div className='relative bg-base-200' id='features'>
     <div className='py-18 container mx-auto px-4 sm:px-6'>
       <div className="flex-col md:flex md:flex-row gap-4 space-y-6 ">
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase md:w-1/2 text-secondary'>NOS SERVICES</h2>
+        <h2 className='text-xl md:text-2xl xl:text-3xl font-bold uppercase md:w-1/2 text-secondary'>NOS SERVICES</h2>
         <p>
             SAGRI & TM vous offre une plateforme innovante pensée 
             pour connecter efficacement producteurs agricoles et acheteurs, 
             en assurant transparence, proximité et simplicité.
         </p>
       </div>
-      <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 mt-5'>
+      <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 mt-12'>
         {services.map(({id, titre, content, img}) =>  (
             <ServiceItem key={id} titre={titre} content={content} img={img} />
         ))}
@@ -39,7 +39,7 @@ const ServiceItem = ({titre, content, img}) =>  {
     return (
         <div className="card card-dash bg-base-100 shadow-md md:shadow-xl space-y-3 rounded-xl">
           <div className="card-body">
-            <h4 className='text-md font-semibold text-primary'>{titre}</h4>
+            <h4 className='text-md font-semibold text-secondary'>{titre}</h4>
             <p className='text-xs'>
                 {content}
             </p>

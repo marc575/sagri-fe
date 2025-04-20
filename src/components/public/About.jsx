@@ -116,7 +116,7 @@ function About() {
 
       <div className='space-y-3'>
         <p className='uppercase text-xs md:text-md font-bold text-secondary'>Une vision nouvelle pour une agriculture durable</p>
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold uppercase text-secondary'>Nous connectons les acteurs de l'agriculture africaine</h2>
+        <h2 className='text-xl md:text-2xl xl:text-3xl font-bold uppercase text-secondary'>Nous connectons les acteurs de l'agriculture africaine</h2>
         <p>
             SAGRI & TM est bien plus qu’un marketplace : c’est un écosystème pensé pour 
             transformer l’agriculture africaine. Nous croyons en une chaîne de valeur 

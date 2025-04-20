@@ -53,17 +53,17 @@ function Reviews() {
   return (
     <div className='bg-base-100' id='reviews'>
       <div className='py-18 container mx-auto px-4 text-center sm:px-6 space-y-5'>
-        <h2 className='text-xl md:text-3xl xl:text-4xl font-bold lg:w-1/2 mx-auto text-secondary uppercase'>Ce qu’ils disent de nous !</h2>
+        <h2 className='text-xl md:text-2xl xl:text-3xl font-bold lg:w-1/2 mx-auto text-secondary uppercase'>Ce qu’ils disent de nous !</h2>
         <p className='lg:w-2/3 mx-auto text-md'>
             Nos utilisateurs partagent leur expérience avec la plateforme SAGRI & TM. 
             Découvrez comment notre solution a changé leur manière de produire, 
             vendre et acheter dans le secteur agricole.
         </p>
         
-        <div className="relative w-full max-w-6xl mx-auto overflow-hidden">
+        <div className="relative w-full mx-auto overflow-hidden">
             <div 
                 ref={carouselRef}
-                className="carousel carousel-center sm:space-x-3 overflow-hidden rounded-box max-w-xs sm:max-w-full"
+                className="carousel carousel-center sm:space-x-3 overflow-hidden rounded-box max-w-full"
             >
                 {reviews.map(({id, rating, name, jobprofile, message}) => (
                 <div 

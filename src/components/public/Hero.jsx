@@ -10,9 +10,9 @@ export default function Hero() {
         id='hero'
             className="hero h-screen"
             style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
                 url(${hero})`,
-                marginTop: "-100px",
+                marginTop: "-92px",
             }}>
             <div className="items-start text-neutral-content text-center">
                 <div className="max-w-full">
