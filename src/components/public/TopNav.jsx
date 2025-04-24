@@ -61,7 +61,7 @@ export default function TopNav() {
             </div>
             <div className="navbar-end gap-5 items-center">
                 <ThemeSwitcher />
-                <Button className="btn btn-secondary" href='/login'>Se Connecter</Button>
+                <Button className="btn btn-secondary" href='/auth/login'>Se Connecter</Button>
             </div>
         </div>
     </>

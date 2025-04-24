@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useAuth } from '../../context/AuthContext';
 
 const registerSchema = z.object({
   name: z.string().min(3, 'Le nom doit contenir au moins 3 caractères'),
@@ -11,10 +11,10 @@ const registerSchema = z.object({
     .min(8, 'Le mot de passe doit contenir au moins 8 caractères')
     .regex(/[A-Z]/, 'Doit contenir au moins une majuscule')
     .regex(/[0-9]/, 'Doit contenir au moins un chiffre'),
-  confirmPassword: z.string()
-}).refine(data => data.password === data.confirmPassword, {
+  password_confirmation: z.string()
+}).refine(data => data.password === data.password_confirmation, {
   message: "Les mots de passe ne correspondent pas",
-  path: ["confirmPassword"]
+  path: ["password_confirmation"]
 });
 
 export const RegisterForm = () => {
@@ -110,19 +110,19 @@ export const RegisterForm = () => {
           </div>
 
           <div className="form-control mb-6 space-y-2">
-            <label className="label tooltip tooltip-right" data-tip="champ obligatoire" htmlFor="confirmPassword">
+            <label className="label tooltip tooltip-right" data-tip="champ obligatoire" htmlFor="password_confirmation">
               <span className="label-text">Confirmer le mot de passe *</span>
             </label>
             <input
-              id="confirmPassword"
+              id="password_confirmation"
               type="password"
               placeholder="••••••••"
-              className={`input input-bordered w-full ${errors.confirmPassword ? 'input-error' : ''}`}
-              {...register('confirmPassword')}
+              className={`input input-bordered w-full ${errors.password_confirmation ? 'input-error' : ''}`}
+              {...register('password_confirmation')}
             />
-            {errors.confirmPassword && (
+            {errors.password_confirmation && (
               <label className="label">
-                <span className="label-text-alt text-error text-xs">{errors.confirmPassword.message}</span>
+                <span className="label-text-alt text-error text-xs">{errors.password_confirmation.message}</span>
               </label>
             )}
           </div>

@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const loginSchema = z.object({
   email: z.string().email('Email invalide').min(3, 'Email requis'),
@@ -12,6 +13,14 @@ const loginSchema = z.object({
 export const LoginForm = () => {
   const { login, loading, error: authError } = useAuth();
   const [serverError, setServerError] = useState(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
   
   const {
     register,

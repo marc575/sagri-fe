@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import Auth from './pages/Auth';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/dashboard/ProtectedRoute';
+import Blog from './pages/Blog';
 
 function App() {
 
@@ -14,14 +15,22 @@ function App() {
         <Routes>
           <Route path="/" element={ <Home /> } />
           
-          <Route path="/login" element={<Auth />} />
-          <Route path="/register" element={<Auth initialMode="register" />} />
+          <Route path="/auth/login" element={<Auth />} />
+          <Route path="/auth/register" element={<Auth initialMode="register" />} />
           <Route 
             path="/dashboard" 
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <Dashboard />
-              // </ProtectedRoute>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/blog" 
+            element={
+              <ProtectedRoute>
+                <Blog />
+              </ProtectedRoute>
             } 
           />
         </Routes>

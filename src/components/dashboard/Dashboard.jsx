@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useEffect } from 'react';
 
 export const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -8,7 +8,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate('/auth/login');
     }
   }, [user, navigate]);
 

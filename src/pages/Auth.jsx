@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import bg from '../assets/img/11.jpg';
 import logo from '../assets/img/logo-green.png';
 import { useState } from 'react';
 import { LoginForm } from '../components/public/LoginForm';
 import { RegisterForm } from '../components/public/RegisterForm';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth/login');
+    }
+  }, [user, navigate]);
 
   const container = {
     hidden: { opacity: 0 },
@@ -53,7 +63,9 @@ function Auth() {
                 </AnimatePresence>
 
                 <div className={`text-center flex max-w-[140px] md:max-w-[180px] flex-col gap-5 px-2 justify-center items-center bg-[#1F4D3B] text-white ${isLogin ? 'rounded-r-xl' : 'rounded-l-xl'}`}>
-                  <img src={logo} alt="" width="100" className='rounded-full' />
+                    <a href="/">
+                      <img src={logo} alt="" width="100" className='hover:scale-95 hover:duration-300' />
+                    </a>
                 
                     {isLogin 
                     ? (
