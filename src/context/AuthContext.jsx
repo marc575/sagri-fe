@@ -81,12 +81,12 @@ export const AuthProvider = ({ children }) => {
     navigate('/auth/login');
   };
 
-  const changePassword = async (currentPassword, newPassword, token) => {
+  const changePassword = async (currentPassword, newPassword, newPasswordConfirmation) => {
     try {
       await axios.post('/api/change-password', {
         current_password: currentPassword,
         new_password: newPassword,
-        new_password_confirmation: newPassword,
+        new_password_confirmation: newPasswordConfirmation,
       }, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -105,7 +105,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
   
-  const resetPassword = async (email, password, passwordConfirmation, token) => {
+  const resetPassword = async (email, password, passwordConfirmation) => {
     try {
       await axios.post('/api/reset-password', {
         email,

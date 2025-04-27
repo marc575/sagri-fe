@@ -5,6 +5,7 @@ import Auth from './pages/Auth';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/dashboard/ProtectedRoute';
 import Blog from './pages/Blog';
+import Me from './pages/me';
 
 function App() {
 
@@ -30,6 +31,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Blog />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/me" 
+            element={
+              <ProtectedRoute>
+                <Me />
               </ProtectedRoute>
             } 
           />

@@ -32,3 +32,18 @@ npm i -D daisyui@latest
 npx json-server db.json
 npm run dev
 ```
+
+Fonctionnalités clés :
+Validation robuste : Utilisation de Zod pour des schémas de validation complets
+
+Gestion d'état optimisée : Context API avec useCallback pour éviter les rendus inutiles
+
+UI moderne : Intégration de Tailwind CSS et DaisyUI
+
+Sécurité : Protection des routes et stockage sécurisé du token
+
+Expérience utilisateur : Feedback visuel pendant le chargement et pour les erreurs
+
+Optimisation : Mémoïsation des fonctions et gestion propre des effets
+
+Extensibilité : Architecture facile à étendre pour des besoins futurs
