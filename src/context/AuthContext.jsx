@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   // Vérifier l'état d'authentification au chargement
-  const getUser = async (token) => {
+  const getUser = useCallback(async (token) => {
     if (token) {
       try {
         const response = await axios.get('/api/user', {
@@ -27,19 +27,19 @@ export const AuthProvider = ({ children }) => {
         setError(err.response?.data?.message || 'Erreur de connexion');
       }
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     getUser(token);
     setIsAuthenticated(true);
   }, [token])
 
-  const login = useCallback(async (credentials) => {
+  const login = async (data) => {
     setLoading(true);
     setError(null);
     try {
       await axios.get('/sanctum/csrf-cookie');
-      const response = await axios.post('/api/login', credentials);
+      const response = await axios.post('/api/login', data);
       localStorage.setItem('token', response.data.access_token);
       setToken(response.data.access_token);
       navigate('/dashboard');
@@ -48,14 +48,14 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [navigate]);
+  };
 
-  const register = useCallback(async (userData) => {
+  const registerInitial = async (data) => {
     setLoading(true);
     setError(null);
     try {
       await axios.get('/sanctum/csrf-cookie');
-      const response = await axios.post('/api/register', userData);
+      const response = await axios.post('/api/register/initial', data);
       localStorage.setItem('token', response.data.access_token);
       setToken(response.data.access_token);
       navigate('/dashboard');
@@ -64,7 +64,23 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [navigate]);
+  };
+
+  const registerComplete = async (data) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.get('/sanctum/csrf-cookie');
+      const response = await axios.post('/api/register/complete', data);
+      localStorage.setItem('token', response.data.access_token);
+      setToken(response.data.access_token);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || "Erreur d'inscription");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const logout = async () => {
     await axios.get('/sanctum/csrf-cookie');
@@ -142,7 +158,8 @@ export const AuthProvider = ({ children }) => {
       loading,
       error,
       login,
-      register,
+      registerInitial,
+      registerComplete,
       logout,
       changePassword,
       forgotPassword,
