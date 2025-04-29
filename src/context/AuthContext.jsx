@@ -15,11 +15,15 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   // Vérifier l'état d'authentification au chargement
-  const getUser = useCallback(async (token) => {
+  const getUser = async (token) => {
     if (token) {
       try {
         const response = await axios.get('/api/user', {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            ContentType: "application/json"
+          }
         });
         setUser(response.data);
         localStorage.setItem('user', user);
@@ -27,12 +31,7 @@ export const AuthProvider = ({ children }) => {
         setError(err.response?.data?.message || 'Erreur de connexion');
       }
     }
-  }, [navigate]);
-
-  useEffect(() => {
-    getUser(token);
-    setIsAuthenticated(true);
-  }, [token])
+  };
 
   const login = async (data) => {
     setLoading(true);
@@ -85,8 +84,10 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     await axios.get('/sanctum/csrf-cookie');
     await axios.post('/api/logout', {}, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        ContentType: "application/json"
       }
     });
     localStorage.removeItem('token');
@@ -104,8 +105,10 @@ export const AuthProvider = ({ children }) => {
         new_password: newPassword,
         new_password_confirmation: newPasswordConfirmation,
       }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          ContentType: "application/json"
         }
       });
     } catch (err) {
@@ -144,6 +147,9 @@ export const AuthProvider = ({ children }) => {
           login(socialToken);
           window.history.replaceState({}, document.title, window.location.pathname);
         }
+      } else {
+        getUser(token);
+        setIsAuthenticated(true);
       }
       setLoading(false);
     };

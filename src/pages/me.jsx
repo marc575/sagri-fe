@@ -1,10 +1,13 @@
 import React from 'react';
 import Layout from '../components/dashboard/layout';
+import Profile from '../components/dashboard/Profile';
+import { useAuth } from '../context/AuthContext';
 
 function me() {
+  const { user } = useAuth();
   return (
     <Layout>
-      Bonjour Le monde !
+      <Profile user={user} />
     </Layout>
   )
 }
