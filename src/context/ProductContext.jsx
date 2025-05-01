@@ -1,5 +1,4 @@
-import { createContext, useState, useEffect, useCallback, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 const ProductContext = createContext();
@@ -12,9 +11,8 @@ export const ProductProvider = ({ children }) => {
   const [product, setProduct] = useState(localStorage.getItem('product') || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
-  const getProducts = useCallback(async (token) => {
+  const getProducts = async (token) => {
     if (token) {
       try {
         await axios.get('/sanctum/csrf-cookie');
@@ -25,13 +23,13 @@ export const ProductProvider = ({ children }) => {
             ContentType: "application/json"
             }
         });
-        setProducts(response.data);
+        setProducts(response.data.data);
         localStorage.setItem('products', products);
       } catch (err) {
         setError(err.response?.data?.message || 'Une erreur est survenue !');
       }
     }
-  }, [navigate]);
+  };
 
   useEffect(() => {
     getProducts(token);
@@ -116,7 +114,7 @@ export const ProductProvider = ({ children }) => {
       postProduct,
       updateProduct,
       deleteProduct,
-      loading,
+      porductsLoading: loading,
       error
     }}>
       {children}

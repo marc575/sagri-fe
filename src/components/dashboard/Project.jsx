@@ -133,7 +133,7 @@ const Project = ({ userId }) => {
                 <button onClick={() => openModal(project)} className="btn btn-sm btn-ghost gap-1">
                   <FiEdit2 /> Modifier
                 </button>
-                <button onClick={() => deleteProject(project.id)} className="btn btn-sm btn-ghost text-error gap-1">
+                <button onClick={() => handleDelete(project.id)} className="btn btn-sm btn-ghost text-error gap-1">
                   <FiTrash2 /> Supprimer
                 </button>
               </div>
@@ -158,7 +158,7 @@ const Project = ({ userId }) => {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
               transition={{ type: "spring", damping: 25 }}
-              className="modal-box w-full max-w-2xl relative bg-white shadow-xl rounded-lg p-8"
+              className="modal-box w-full max-w-2xl relative bg-white shadow-md rounded-lg p-8"
               onClick={(e) => e.stopPropagation()}
             >
               <button onClick={closeModal} className="btn btn-sm btn-circle absolute right-4 top-4 z-10">

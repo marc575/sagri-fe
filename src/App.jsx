@@ -8,6 +8,7 @@ import Blog from './pages/Blog';
 import Me from './pages/me';
 import { ActivityProvider } from './context/ActivityContext';
 import { ProjectProvider } from './context/ProjectContext';
+import { ProductProvider } from './context/ProductContext';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <AuthProvider>
         <ProjectProvider>
         <ActivityProvider>
+        <ProductProvider>
         <Routes>
           <Route path="/" element={ <Home /> } />
           
@@ -47,6 +49,7 @@ function App() {
             } 
           />
         </Routes>
+        </ProductProvider>
         </ActivityProvider>
         </ProjectProvider>
         </AuthProvider>

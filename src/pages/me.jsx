@@ -3,6 +3,7 @@ import Layout from '../components/dashboard/layout';
 import Profile from '../components/dashboard/Profile';
 import { useAuth } from '../context/AuthContext';
 import Project from '../components/dashboard/Project';
+import Product from '../components/dashboard/Product';
 
 function me() {
   const { user } = useAuth();
@@ -10,6 +11,7 @@ function me() {
     <Layout>
       <Profile user={user} />
       <Project userId={user?.id} />
+      <Product userId={user?.id} />
     </Layout>
   )
 }
