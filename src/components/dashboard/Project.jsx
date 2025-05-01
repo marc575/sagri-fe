@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCalendar, FiInfo, FiCheckCircle } from 'react-icons/fi';
 import { useProject } from '../../context/ProjectContext';
@@ -6,8 +6,8 @@ import { useActivity } from '../../context/ActivityContext';
 import Loading from '../ui/Loading';
 
 const Project = ({ userId }) => {
-  const { projects, project, updateProject, getProjects, postProject, deleteProject, projectsLoading } = useProject();
-  const { activities, activity, activitiesLoading } = useActivity();
+  const { projects, updateProject, postProject, deleteProject, projectsLoading } = useProject();
+  const { activities, activitiesLoading } = useActivity();
   const [modalOpen, setModalOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
   const [formData, setFormData] = useState({
@@ -66,7 +66,7 @@ const Project = ({ userId }) => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteProject(`${id}`);
+      await deleteProject(id);
     } catch (error) {
       console.error('Error deleting project:', error);
     }
@@ -82,9 +82,9 @@ const Project = ({ userId }) => {
   if (isLoading) return <Loading/>;
 
   return (
-    <div className="container mx-auto px-4 md:px-2 py-18">
+    <div className="container mx-auto mt-12 py-12 px-4 border-t-4 border-[#FDFAD0]">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Mes Projets</h1>
+        <h1 className="text-3xl font-bold text-secondary">Mes Projets</h1>
         <button
           onClick={() => openModal()}
           className="btn btn-primary gap-2"
@@ -94,7 +94,7 @@ const Project = ({ userId }) => {
       </div>
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {Array.isArray(projects) && projects.map(project => (
           <motion.div
             key={project.id}
@@ -105,7 +105,7 @@ const Project = ({ userId }) => {
           >
             <div className="card-body">
               <div className="flex justify-between items-start">
-                <h2 className="card-title text-xl">{project.name}</h2>
+                <h2 className="card-title text-secondary text-xl">{project.name}</h2>
                 <span className={`badge ${statusColors[project.status]}`}>
                   {project.status}
                 </span>
@@ -157,7 +157,7 @@ const Project = ({ userId }) => {
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              transition={{ type: "spring", damping: 25 }}
+              transition={{ type: "spring", damping: 25, stiffness: 100 }}
               className="modal-box w-full max-w-2xl relative bg-white shadow-md rounded-lg p-8"
               onClick={(e) => e.stopPropagation()}
             >

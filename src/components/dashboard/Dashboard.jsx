@@ -39,7 +39,7 @@ export const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="card bg-base-200">
             <div className="card-body">
-              <h2 className="card-title">Tableau de bord</h2>
+              <h2 className="card-title text-secondary">Tableau de bord</h2>
               <p>Contenu personnalisé pour l'utilisateur connecté</p>
             </div>
           </div>

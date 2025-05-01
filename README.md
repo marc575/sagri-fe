@@ -98,3 +98,30 @@ Création, modification et suppression
 Liaison avec les projets
 
 Gestion des quantités et prix
+
+2. Points clés de l'implémentation
+Design moderne :
+
+Utilisation de DaisyUI pour les composants (cartes, boutons, modales)
+
+Icônes React-icons pour une meilleure visibilité
+
+Animations fluides avec Framer Motion
+
+Fonctionnalités :
+
+CRUD complet avec modales popup
+
+Sélecteur de catégories prédéfinies
+
+Gestion des états de chargement
+
+Validation de formulaire intégrée
+
+Optimisations :
+
+Affichage responsive (grille sur 3 colonnes en grand écran)
+
+Limitation de la description à 3 lignes avec line-clamp-3
+
+Animation lors de l'apparition des éléments

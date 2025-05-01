@@ -6,8 +6,8 @@ import { useProduct } from '../../context/ProductContext';
 import Loading from '../ui/Loading';
 
 const Product = ({ userId }) => {
-  const { products, product, updateProduct, getProducts, postProduct, deleteProduct, productsLoading } = useProduct();
-  const { projects, project, updateProject, getProjects, postProject, deleteProject, projectsLoading } = useProject();
+  const { products, updateProduct, postProduct, deleteProduct, productsLoading } = useProduct();
+  const { projects, projectsLoading } = useProject();
   let isLoading = productsLoading || projectsLoading;
   const [modalOpenProduct, setModalOpenProduct] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -81,7 +81,7 @@ const Product = ({ userId }) => {
 
   const handleDeleteProduct = async (id) => {
     try {
-        await deleteProduct(`${id}`);
+        await deleteProduct(id);
     } catch (error) {
       console.error('Error deleting product:', error);
     }
@@ -89,16 +89,16 @@ const Product = ({ userId }) => {
 
   const statusColors = {
     available: 'bg-green-100 text-green-800',
-    out_of_stock: 'bg-red-100 text-red-800',
+    sold_out: 'bg-red-100 text-red-800',
     coming_soon: 'bg-blue-100 text-blue-800'
   };
 
   if (isLoading) return <Loading/>;
 
   return (
-    <div className="container mx-auto  px-4 md:px-2 py-18">
+    <div className="container mx-auto py-12 px-4 border-t-4 border-[#FDFAD0]">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Mes Produits</h1>
+        <h1 className="text-3xl font-bold text-secondary">Mes Produits</h1>
         <button
           onClick={() => openModalProduct()}
           className="btn btn-primary gap-2"
@@ -132,7 +132,7 @@ const Product = ({ userId }) => {
             </figure>
             <div className="card-body">
               <div className="flex justify-between items-start">
-                <h2 className="card-title text-xl">{product.name}</h2>
+                <h2 className="card-title text-secondary text-xl">{product.name}</h2>
                 <span className={`badge ${statusColors[product.status]}`}>
                   {product.status}
                 </span>

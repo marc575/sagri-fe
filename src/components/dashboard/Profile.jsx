@@ -18,7 +18,7 @@ function Profile({user}) {
                 <div className='absolute top-54'>
                     <Avatar user={user} className='w-98'/>
                 </div>
-                <h2 className="card-title text-2xl pt-5">
+                <h2 className="card-title text-secondary text-2xl pt-5">
                     {user?.name}
                 <div className="badge badge-secondary"><FiFolder /> {user?.role}</div>
                 </h2>
