@@ -2,12 +2,14 @@ import React from 'react';
 import Layout from '../components/dashboard/layout';
 import Profile from '../components/dashboard/Profile';
 import { useAuth } from '../context/AuthContext';
+import Project from '../components/dashboard/Project';
 
 function me() {
   const { user } = useAuth();
   return (
     <Layout>
       <Profile user={user} />
+      <Project userId={user?.id} />
     </Layout>
   )
 }

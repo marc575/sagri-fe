@@ -25,7 +25,7 @@ export const ProjectProvider = ({ children }) => {
             ContentType: "application/json"
             }
         });
-        setProjects(response.data);
+        setProjects(response.data.data);
         localStorage.setItem('projects', projects);
       } catch (err) {
         setError(err.response?.data?.message || 'Une erreur est survenue !');
@@ -48,7 +48,7 @@ export const ProjectProvider = ({ children }) => {
             ContentType: "application/json"
             }
         });
-        setProject(response.data);
+        setProject(response.data.data);
         localStorage.setItem('project', project);
       } catch (err) {
         setError(err.response?.data?.message || 'Une erreur est survenue !');
@@ -97,12 +97,11 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const deleteProject = async (id) => {
+    console.log(token);
     await axios.get('/sanctum/csrf-cookie');
     await axios.delete(`/api/projects/${id}`, {}, {
       headers: {
         Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        ContentType: "application/json"
       }
     });
     await getProjects(token);
@@ -116,7 +115,7 @@ export const ProjectProvider = ({ children }) => {
       postProject,
       updateProject,
       deleteProject,
-      loading,
+      projectsLoading: loading,
       error
     }}>
       {children}

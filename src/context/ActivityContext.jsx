@@ -25,7 +25,7 @@ export const ActivityProvider = ({ children }) => {
             ContentType: "application/json"
             }
         });
-        setActivities(response.data);
+        setActivities(response.data.data);
         localStorage.setItem('activities', activities);
       } catch (err) {
         setError(err.response?.data?.message || 'Une erreur est survenue !');
@@ -48,7 +48,7 @@ export const ActivityProvider = ({ children }) => {
             ContentType: "application/json"
             }
         });
-        setActivity(response.data);
+        setActivity(response.data.data);
         localStorage.setItem('activity', activity);
       } catch (err) {
         setError(err.response?.data?.message || 'Une erreur est survenue !');
@@ -116,7 +116,7 @@ export const ActivityProvider = ({ children }) => {
       postActivity,
       updateActivity,
       deleteActivity,
-      loading,
+      activitiesLoading: loading,
       error
     }}>
       {children}

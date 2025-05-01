@@ -6,6 +6,8 @@ import { Dashboard } from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/dashboard/ProtectedRoute';
 import Blog from './pages/Blog';
 import Me from './pages/me';
+import { ActivityProvider } from './context/ActivityContext';
+import { ProjectProvider } from './context/ProjectContext';
 
 function App() {
 
@@ -13,6 +15,8 @@ function App() {
     <>
       <Router>
         <AuthProvider>
+        <ProjectProvider>
+        <ActivityProvider>
         <Routes>
           <Route path="/" element={ <Home /> } />
           
@@ -43,6 +47,8 @@ function App() {
             } 
           />
         </Routes>
+        </ActivityProvider>
+        </ProjectProvider>
         </AuthProvider>
       </Router>
     </>
