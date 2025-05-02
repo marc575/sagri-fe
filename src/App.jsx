@@ -9,6 +9,7 @@ import Me from './pages/me';
 import { ActivityProvider } from './context/ActivityContext';
 import { ProjectProvider } from './context/ProjectContext';
 import { ProductProvider } from './context/ProductContext';
+import { OrderProvider } from './context/OrderContext';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <ProjectProvider>
         <ActivityProvider>
         <ProductProvider>
+        <OrderProvider>
         <Routes>
           <Route path="/" element={ <Home /> } />
           
@@ -49,6 +51,7 @@ function App() {
             } 
           />
         </Routes>
+        </OrderProvider>
         </ProductProvider>
         </ActivityProvider>
         </ProjectProvider>

@@ -4,6 +4,7 @@ import { FiPlus, FiEdit2, FiTrash2, FiX, FiCalendar, FiInfo, FiCheckCircle } fro
 import { useProject } from '../../context/ProjectContext';
 import { useActivity } from '../../context/ActivityContext';
 import Loading from '../ui/Loading';
+import Description from '../ui/Description';
 
 const Project = ({ userId }) => {
   const { projects, updateProject, postProject, deleteProject, projectsLoading } = useProject();
@@ -52,7 +53,7 @@ const Project = ({ userId }) => {
     e.preventDefault();
     try {
       if (currentProject) {
-        await updateProject(formData, `${currentProject.id}`);
+        await updateProject(formData, currentProject.id);
         setModalOpen(false);
       } else {
         await postProject(formData);
@@ -110,7 +111,7 @@ const Project = ({ userId }) => {
                   {project.status}
                 </span>
               </div>
-              <p className="text-gray-600 mt-2">{project.description}</p>
+              <Description description={project.description} />
               
               <div className="mt-4 space-y-2">
                 <div className="flex items-center gap-2 text-sm">
@@ -150,7 +151,7 @@ const Project = ({ userId }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50"
             onClick={closeModal}
           >
             <motion.div

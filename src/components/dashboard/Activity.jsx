@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiActivity, FiTag, FiAlignLeft } from 'react-icons/fi';
 import Loading from '../ui/Loading';
 import { useActivity } from '../../context/ActivityContext';
+import Description from '../ui/Description';
 
 const Activity = ({ userId }) => {
-  const { activities, activity, updateActivity, postActivity, deleteActivity, activitiesLoading } = useActivity();
+  const { activities, updateActivity, postActivity, deleteActivity, activitiesLoading } = useActivity();
   let isLoading = activitiesLoading;
   const [modalOpenActivity, setModalOpenActivity] = useState(false);
   const [currentActivity, setCurrentActivity] = useState(null);
@@ -51,7 +52,7 @@ const Activity = ({ userId }) => {
     e.preventDefault();
     try {
       if (currentActivity) {
-        await updateActivity(formDataActivity, `${currentActivity.id}`);
+        await updateActivity(formDataActivity, currentActivity.id);
         setModalOpenActivity(false);
       } else {
         await postActivity(formDataActivity);
@@ -113,7 +114,7 @@ const Activity = ({ userId }) => {
               {activity.description && (
                 <div className="flex items-start gap-2">
                   <FiAlignLeft className="text-gray-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-600 line-clamp-3">{activity.description}</p>
+                  <Description description={activity.description} />
                 </div>
               )}
 
@@ -143,7 +144,8 @@ const Activity = ({ userId }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center p-4 z-50"
+            transition={{ type: "spring", damping: 25, stiffness: 100 }}
+            className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50"
             onClick={closeModalActivity}
           >
             <motion.div

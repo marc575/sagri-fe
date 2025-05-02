@@ -98,13 +98,9 @@ export const AuthProvider = ({ children }) => {
     navigate('/auth/login');
   };
 
-  const changePassword = async (currentPassword, newPassword, newPasswordConfirmation) => {
+  const changePassword = async (data) => {
     try {
-      await axios.post('/api/change-password', {
-        current_password: currentPassword,
-        new_password: newPassword,
-        new_password_confirmation: newPasswordConfirmation,
-      }, {
+      await axios.post('/api/change-password', data, {
         headers: { 
           Authorization: `Bearer ${token}`,
           Accept: "application/json",

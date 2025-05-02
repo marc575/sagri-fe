@@ -1,20 +1,18 @@
-import { createContext, useState, useEffect, useCallback, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 const OrderContext = createContext();
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000";
 
-export const ProductProvider = ({ children }) => {
+export const OrderProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [orders, setOrders] = useState(localStorage.getItem('orders') || '');
   const [order, setOrder] = useState(localStorage.getItem('order') || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
-  const getOrders = useCallback(async (token) => {
+  const getOrders = async (token) => {
     if (token) {
       try {
         await axios.get('/sanctum/csrf-cookie');
@@ -25,13 +23,13 @@ export const ProductProvider = ({ children }) => {
             ContentType: "application/json"
             }
         });
-        setOrders(response.data);
+        setOrders(response.data.data);
         localStorage.setItem('orders', orders);
       } catch (err) {
         setError(err.response?.data?.message || 'Une erreur est survenue !');
       }
     }
-  }, [navigate]);
+  };
 
   useEffect(() => {
     getOrders(token);
@@ -116,7 +114,7 @@ export const ProductProvider = ({ children }) => {
       postOrder,
       updateOrder,
       deleteOrder,
-      loading,
+      OrdersLoading: loading,
       error
     }}>
       {children}

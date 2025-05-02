@@ -63,7 +63,7 @@ export const ProductProvider = ({ children }) => {
         headers: { 
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
-            ContentType: "application/json"
+            ContentType: "multipart/form-data"
             }
         });
         await getProducts(token);
@@ -82,8 +82,7 @@ export const ProductProvider = ({ children }) => {
       await axios.put(`/api/products/${id}`, data, {
         headers: { 
             Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-            ContentType: "application/json"
+            ContentType: "multipart/form-data"
             }
         });
         await getProducts(token);

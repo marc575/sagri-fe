@@ -6,9 +6,9 @@ import { useAuth } from '../../context/AuthContext';
 function Sidebar() {
   const { user } = useAuth();
   return (
-    <div>
+    <div className='lg:w-92'>
       <a href=''>
-        <div className="card bg-base-100 image-full w-96 shadow-sm">
+        <div className="card bg-base-100 image-full shadow-sm">
           <figure>
             <img
               src={img}
@@ -21,7 +21,7 @@ function Sidebar() {
         </div>
       </a>
 
-      <div className='w-96'> <Activity userId={user?.id} /> </div>
+      <div> <Activity userId={user?.id} /> </div>
     </div>
   )
 }

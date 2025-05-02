@@ -1,12 +1,120 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/img/logo-light.png'
 import Avatar from '../ui/Avatar';
 import { useAuth } from '../../context/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiX, FiUser, FiMail, FiPhone, FiMapPin, FiCalendar, FiGlobe, FiInfo, FiCheckCircle, FiAward, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 
 function TopNav() {
-  const { user, logout } = useAuth();
+  const { user, logout, changePassword } = useAuth();
+  const [errors, setErrors] = useState({});
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModalPassword, setShowModalPassword] = useState(false);
+  const [formDataPassword, setFormDataPassword] = useState({
+    current_password: '',
+    new_password: '',
+    new_password_confirmation: ''
+  });
+  const [selectedUser, setSelectedUser] = useState(user);
+  const [showModal, setShowModal] = useState(false);
+  
+  if (!user) return null;
+
+  // Formater la date
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Non renseigné';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  // Traduire le statut
+  const getStatusLabel = (status) => {
+    return status === 1 ? 
+      <span className="badge badge-success">Actif</span> : 
+      <span className="badge badge-error">Inactif</span>;
+  };
+
+  // Traduire le rôle
+  const getRoleLabel = (role) => {
+    const roles = {
+      farmer: 'Agriculteur',
+      buyer: 'Acheteur',
+      admin: 'Administrateur'
+    };
+    return <span className="badge badge-info">{roles[role] || role}</span>;
+  };
+
+  const openModal = (user) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+  
+  const closeModal = () => {
+    setSelectedUser(null);
+    setShowModal(false);
+  };
+
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormDataPassword(prev => ({ ...prev, [name]: value }));
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    
+    if (!formDataPassword.current_password) {
+      newErrors.current_password = 'Le mot de passe actuel est requis';
+    }
+    
+    if (!formDataPassword.new_password) {
+      newErrors.new_password = 'Un nouveau mot de passe est requis';
+    } else if (formDataPassword.new_password.length < 8) {
+      newErrors.new_password = 'Minimum 8 caractères';
+    }
+    
+    if (formDataPassword.new_password !== formDataPassword.new_password_confirmation) {
+      newErrors.new_password_confirmation = 'Les mots de passe ne correspondent pas';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validate()) return;
+    try {
+      await changePassword(formDataPassword);
+      closeModalPassword();
+    } catch (error) {
+      setErrors({
+        server: error.response?.data?.message || 'Erreur lors de la mise à jour'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const openModalPassword = () => {
+    setShowModalPassword(true);
+  };
+  
+  const closeModalPassword = () => {
+    setShowModalPassword(false);
+  };
 
   return (
+    <>
     <div className='bg-[#FDFAD0] shadow-sm'>
       <div className="navbar container mx-auto">
         <div className="flex-1">
@@ -34,10 +142,15 @@ function TopNav() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-lg dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+              className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
               <li>
-                <a>
+                <a onClick={() => openModal(user)}>
                   Profile
+                </a>
+              </li>
+              <li>
+                <a onClick={() => openModalPassword()}>
+                  Mot de Passe
                 </a>
               </li>
               <li>
@@ -48,6 +161,302 @@ function TopNav() {
         </div>
       </div>
     </div>
+
+    <AnimatePresence>
+      {showModalPassword && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0  backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.95, y: 20, opacity: 0 }}
+            animate={{ scale: 1, y: 0, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ type: "spring", damping: 25, stiffness: 100 }}
+            className="bg-white rounded-xl shadow-2xl w-full max-w-md"
+          >
+            {/* Header */}
+            <div className="border-b p-6 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <FiLock className="text-primary" />
+                Modifier le mot de passe
+              </h2>
+              <button 
+                onClick={() => closeModalPassword()}
+                className="btn btn-circle btn-ghost btn-sm"
+                disabled={isSubmitting}
+              >
+                <FiX className="text-lg" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <form onSubmit={handleSubmit} className="p-6">
+              {errors.server && (
+                <div className="alert alert-error mb-4">
+                  <span>{errors.server}</span>
+                </div>
+              )}
+
+              <div className="space-y-4">
+                {/* Current Password */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Mot de passe actuel</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showCurrentPassword ? "text" : "password"}
+                      name="current_password"
+                      value={formDataPassword.current_password}
+                      onChange={handleChange}
+                      className={`input input-bordered w-full ${errors.current_password ? 'input-error' : ''}`}
+                      disabled={isSubmitting}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                    >
+                      {showCurrentPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.current_password && (
+                    <label className="label">
+                      <span className="label-text-alt text-error">{errors.current_password}</span>
+                    </label>
+                  )}
+                </div>
+
+                {/* New Password */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Nouveau mot de passe</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showNewPassword ? "text" : "password"}
+                      name="new_password"
+                      value={formDataPassword.new_password}
+                      onChange={handleChange}
+                      className={`input input-bordered w-full ${errors.new_password ? 'input-error' : ''}`}
+                      disabled={isSubmitting}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                    >
+                      {showNewPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.new_password && (
+                    <label className="label">
+                      <span className="label-text-alt text-error">{errors.new_password}</span>
+                    </label>
+                  )}
+                  <label className="label">
+                    <span className="label-text-alt text-gray-500">Minimum 8 caractères</span>
+                  </label>
+                </div>
+
+                {/* Confirm Password */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Confirmer le nouveau mot de passe</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="new_password_confirmation"
+                      value={formDataPassword.new_password_confirmation}
+                      onChange={handleChange}
+                      className={`input input-bordered w-full ${errors.new_password_confirmation ? 'input-error' : ''}`}
+                      disabled={isSubmitting}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.new_password_confirmation && (
+                    <label className="label">
+                      <span className="label-text-alt text-error">{errors.new_password_confirmation}</span>
+                    </label>
+                  )}
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="mt-8 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => closeModalPassword()}
+                  className="btn btn-ghost"
+                  disabled={isSubmitting}
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : 'Mettre à jour'}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    
+    <AnimatePresence>
+    {showModal && selectedUser && (<motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      >
+        <motion.div
+          initial={{ scale: 0.95, y: 20 }}
+          animate={{ scale: 1, y: 0 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          transition={{ type: "spring", damping: 25 }}
+          className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col"
+        >
+          {/* Header */}
+          <div className="bg-gradient-to-r from-primary to-secondary p-6 text-white">
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <Avatar user={user} />
+                  {user.name}
+                </h2>
+                <div className="flex gap-3 mt-2">
+                  {getRoleLabel(user.role)}
+                  {getStatusLabel(user.status)}
+                </div>
+              </div>
+              <button 
+                onClick={() => closeModal()}
+                className="btn btn-circle btn-ghost btn-sm text-white hover:bg-white/20"
+              >
+                <FiX className="text-lg" />
+              </button>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="overflow-y-auto p-6 flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Colonne 1 - Informations de base */}
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <FiMail className="text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-500">Email</h3>
+                    <p>{user.email}</p>
+                    {user.email_verified_at && (
+                      <p className="text-sm text-success flex items-center gap-1 mt-1">
+                        <FiCheckCircle /> Vérifié le {formatDate(user.email_verified_at)}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <FiPhone className="text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-500">Téléphone</h3>
+                    <p>{user.phone || 'Non renseigné'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <FiMapPin className="text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-500">Localisation</h3>
+                    <p>{user.address || 'Non renseigné'}</p>
+                    {user.region && <p className="text-sm">{user.region}</p>}
+                    {user.gps_coordinates && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        Coordonnées GPS: {user.gps_coordinates}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Colonne 2 - Informations spécifiques */}
+              <div className="space-y-4">
+                {user.role === 'farmer' && (
+                  <>
+                    <div className="flex items-start gap-3">
+                      <FiAward className="text-primary mt-1 flex-shrink-0" />
+                      <div>
+                        <h3 className="font-semibold text-gray-500">Activité agricole</h3>
+                        <p>
+                          {user.farming_since 
+                            ? `Agriculteur depuis ${formatDate(user.farming_since)}` 
+                            : 'Début non spécifié'}
+                        </p>
+                        {user.land_size && (
+                          <p className="mt-1">Superficie: {user.land_size} hectares</p>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div className="flex items-start gap-3">
+                  <FiCalendar className="text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-gray-500">Dates</h3>
+                    <p>Inscrit le {formatDate(user.created_at)}</p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Dernière mise à jour: {formatDate(user.updated_at)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bio */}
+            {user.bio && (
+              <div className="mt-6">
+                <h3 className="font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                  <FiInfo className="text-primary" />
+                  À propos
+                </h3>
+                <div className="bg-gray-50 p-4 rounded-lg whitespace-pre-line">
+                  {user.bio}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="border-t px-6 py-4 bg-gray-50 flex justify-end">
+            <button 
+              onClick={() => closeModal()}
+              className="btn btn-primary"
+            >
+              Fermer
+            </button>
+          </div>
+        </motion.div>
+      </motion.div>
+    )}
+    </AnimatePresence>
+    </>
   )
 }
 

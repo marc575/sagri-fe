@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiEdit2, FiTrash2, FiX, FiBox, FiDollarSign, FiTag, FiCheckCircle } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiBox, FiDollarSign, FiTag, FiCheckCircle, FiAlignLeft } from 'react-icons/fi';
 import { useProject } from '../../context/ProjectContext';
 import { useProduct } from '../../context/ProductContext';
 import Loading from '../ui/Loading';
+import Description from '../ui/Description';
 
 const Product = ({ userId }) => {
   const { products, updateProduct, postProduct, deleteProduct, productsLoading } = useProduct();
@@ -67,9 +68,11 @@ const Product = ({ userId }) => {
     e.preventDefault();
     try {
       if (currentProduct) {
-        await updateProduct(formDataProduct, `${currentProduct.id}`);
+        console.log(formDataProduct);
+        await updateProduct(formDataProduct, currentProduct.id);
         setModalOpenProduct(false);
       } else {
+        console.log(formDataProduct);
         await postProduct(formDataProduct);
         setModalOpenProduct(false);
       }
@@ -149,12 +152,12 @@ const Product = ({ userId }) => {
                 </div>
                 <div className="flex items-center gap-2">
                   <FiCheckCircle className="text-gray-500" />
-                  <span>{product.category} {product.is_organic && '(Bio)'}</span>
+                  <span>{product.category} {product.is_organic ? '(Bio)' : null }</span>
                 </div>
               </div>
 
               {product.description && (
-                <p className="text-gray-600 mt-2 line-clamp-2">{product.description}</p>
+                <Description description={product.description} />
               )}
 
               <div className="card-actions justify-end mt-4">
@@ -177,7 +180,7 @@ const Product = ({ userId }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50"
             onClick={closeModalProduct}
           >
             <motion.div
@@ -299,7 +302,6 @@ const Product = ({ userId }) => {
                       ))}
                     </select>
                   </div>
-                  
 
                 <div className="form-control">
                   <label className="label">
@@ -309,12 +311,17 @@ const Product = ({ userId }) => {
                     type="file"
                     name="image"
                     onChange={(e) => {
-                      if (e.target.files[0]) {
-                        setFormData({...formDataProduct, image: e.target.files[0]});
-                      }
+                        if (e.target.files[0]) {
+                            // Validation de la taille
+                            if (e.target.files[0].size > 2 * 1024 * 1024) {
+                            alert('Fichier trop volumineux (max 2MB)');
+                            return;
+                            }
+                            setFormDataProduct({...formDataProduct, image: e.target.files[0]});
+                        }
                     }}
                     className="file-input file-input-bordered w-full"
-                    accept="image/*"
+                    accept="image/png, image/jpeg, image/jpg, image/webp, image/tiff, image/svg"
                   />
                 </div>
 
