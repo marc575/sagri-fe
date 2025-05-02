@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 const registerSchema = z.object({
   name: z.string().min(3, 'Le nom doit contenir au moins 3 caractères'),
   email: z.string().email('Email invalide').min(1, 'Email requis'),
+  role: z.string().min(3, 'Rôle requis'),
   password: z.string()
     .min(8, 'Le mot de passe doit contenir au moins 8 caractères')
     .regex(/[A-Z]/, 'Doit contenir au moins une majuscule')
@@ -18,7 +19,7 @@ const registerSchema = z.object({
 });
 
 export const RegisterForm = () => {
-  const { register: registerUser, loading, error: authError } = useAuth();
+  const { registerInitial, loading, error } = useAuth();
   const [serverError, setServerError] = useState(null);
   
   const {
@@ -33,7 +34,7 @@ export const RegisterForm = () => {
   const onSubmit = async (data) => {
     setServerError(null);
     try {
-      await registerUser(data);
+      await registerInitial(data);
       reset();
     } catch (err) {
       setServerError(err.message);
@@ -45,12 +46,12 @@ export const RegisterForm = () => {
       <div className="card-body">
         <h2 className="text-2xl mb-4 text-center font-black text-secondary uppercase">Inscription</h2>
         
-        {(authError || serverError) && (
+        {(error || serverError) && (
           <div className="alert alert-error mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span>{authError || serverError}</span>
+            <span>{error || serverError}</span>
           </div>
         )}
 
@@ -87,6 +88,53 @@ export const RegisterForm = () => {
             {errors.email && (
               <label className="label">
                 <span className="label-text-alt text-error text-xs">{errors.email.message}</span>
+              </label>
+            )}
+          </div>
+
+          <div className="form-control mb-4">
+            <label 
+              className="label tooltip tooltip-right" 
+              data-tip="Champ obligatoire" 
+              htmlFor="role"
+            >
+              <span className="label-text flex items-center gap-1">
+                Type de compte
+                <span className="text-error">*</span>
+              </span>
+            </label>
+            
+            <select
+              id="role"
+              name="role"
+              className={`select select-bordered w-full ${errors.role ? 'select-error' : ''}`}
+              aria-invalid={!!errors.role}
+              {...register('role', {
+                required: "Le type de compte est obligatoire"
+              })}
+            >
+              <option value="">Sélectionnez un type</option>
+              <option value="farmer">Agriculteur</option>
+              <option value="buyer">Acheteur</option>
+            </select>
+            
+            {errors.role && (
+              <label className="label" htmlFor="role">
+                <span className="label-text-alt text-error flex items-center gap-1">
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-4 w-4" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                  {errors.role.message}
+                </span>
               </label>
             )}
           </div>

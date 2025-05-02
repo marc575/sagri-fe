@@ -68,14 +68,53 @@ export const AuthProvider = ({ children }) => {
   const registerComplete = async (data) => {
     setLoading(true);
     setError(null);
+    
     try {
+      // 1. Préparation FormData
+      const formData = new FormData();
+      
+      // Ajout des champs standards
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value);
+        }
+      });
+  
+      // 2. Configuration Axios
       await axios.get('/sanctum/csrf-cookie');
-      const response = await axios.post('/api/register/complete', data);
-      localStorage.setItem('token', response.data.access_token);
+      
+      const response = await axios.post('/api/register/complete', formData, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        },
+        validateStatus: (status) => status < 500 // Ne pas throw pour les 4xx
+      });
+  
+      // 3. Validation réponse
+      if (!response.data?.access_token) {
+        throw new Error('Réponse serveur invalide');
+      }
+  
+      // 4. Sécurité : Stockage du token
+      // const secureToken = {
+      //   value: response.data.access_token,
+      //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24h
+      // };
+      
+      localStorage.setItem('auth_token', response?.data.access_token);
       setToken(response.data.access_token);
+  
+      // 5. Redirection sécurisée
       navigate('/dashboard');
+  
     } catch (err) {
-      setError(err.response?.data?.message || "Erreur d'inscription");
+      // Gestion d'erreur améliorée
+      const errorMessage = err.response?.data?.message 
+        || err.message 
+        || "Une erreur est survenue lors de l'inscription";
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

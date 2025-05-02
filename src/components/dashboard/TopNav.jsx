@@ -3,10 +3,11 @@ import logo from '../../assets/img/logo-light.png'
 import Avatar from '../ui/Avatar';
 import { useAuth } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiUser, FiMail, FiPhone, FiMapPin, FiCalendar, FiGlobe, FiInfo, FiCheckCircle, FiAward, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiX, FiUser, FiMail, FiPhone, FiMapPin, FiCalendar, FiGlobe, FiInfo, FiCheckCircle, FiAward, FiLock, FiEye, FiEyeOff, FiImage, FiCrop } from 'react-icons/fi';
 
 function TopNav() {
-  const { user, logout, changePassword } = useAuth();
+  const { user, logout, changePassword, registerComplete } = useAuth();
+
   const [errors, setErrors] = useState({});
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -20,6 +21,78 @@ function TopNav() {
   });
   const [selectedUser, setSelectedUser] = useState(user);
   const [showModal, setShowModal] = useState(false);
+
+  const [formDataProfile, setFormDataProfile] = useState({
+    phone: user?.phone || '',
+    address: user?.address || '',
+    region: user?.region || '',
+    profile_picture: null,
+    bio: user?.bio || '',
+    land_size: user?.land_size || '',
+    gps_coordinates: user?.gps_coordinates || '',
+    farming_since: user?.farming_since || '',
+    language_id: user?.language_id || '',
+  });
+
+  const languages = [{id: 1, name: "Français"}, {id: 2, name: "English"}]
+
+  const [showModalProfile, setShowModalProfile] = useState(false);
+  const [errorsProfile, setErrorsProfile] = useState({});
+  const [previewImage, setPreviewImage] = useState(user?.profile_picture || null);
+  const [isSubmittingProfile, setIsSubmittingProfile] = useState(false);
+
+  const handleChangeProfile = (e) => {
+    const { name, value } = e.target;
+    setFormDataProfile(prev => ({ ...prev, [name]: value }));
+    if (errorsProfile[name]) setErrorsProfile(prev => ({ ...prev, [name]: null }));
+  };
+
+  const handleFileChangeProfile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormDataProfile(prev => ({ ...prev, profile_picture: file }));
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
+
+  const validateProfile = () => {
+    const newErrors = {};
+    
+    if (!formDataProfile.phone.trim()) newErrors.phone = 'Le téléphone est requis';
+    if (!formDataProfile.address.trim()) newErrors.address = 'L\'adresse est requise';
+    if (!formDataProfile.region.trim()) newErrors.region = 'La région est requise';
+    
+    if (formDataProfile.land_size && formDataProfile.land_size < 0) {
+      newErrors.land_size = 'La superficie ne peut être négative';
+    }
+    
+    if (formDataProfile.farming_since) {
+      const currentYear = new Date().getFullYear();
+      if (formDataProfile.farming_since < 1900 || formDataProfile.farming_since > currentYear) {
+        newErrors.farming_since = `Année invalide (1900-${currentYear})`;
+      }
+    }
+
+    setErrorsProfile(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmitProfile = async (e) => {
+    e.preventDefault();
+    if (!validateProfile()) return;
+
+    setIsSubmittingProfile(true);
+    try {
+      await registerComplete(formDataProfile);
+      closeModalProfile();
+    } catch (error) {
+      setErrorsProfile({
+        server: error.response?.data?.message || 'Erreur lors de la mise à jour'
+      });
+    } finally {
+      setIsSubmittingProfile(false);
+    }
+  };
   
   if (!user) return null;
 
@@ -50,6 +123,19 @@ function TopNav() {
     };
     return <span className="badge badge-info">{roles[role] || role}</span>;
   };
+
+
+  const openModalProfile = () => {
+    setShowModalProfile(true);
+    console.log("ouvert");
+  };
+  
+  const closeModalProfile = () => {
+    setShowModalProfile(false);
+    console.log("fermé");
+  };
+
+
 
   const openModal = (user) => {
     setSelectedUser(user);
@@ -149,6 +235,11 @@ function TopNav() {
                 </a>
               </li>
               <li>
+                <a onClick={() => openModalProfile()}>
+                  Completer le profile
+                </a>
+              </li>
+              <li>
                 <a onClick={() => openModalPassword()}>
                   Mot de Passe
                 </a>
@@ -161,6 +252,282 @@ function TopNav() {
         </div>
       </div>
     </div>
+
+    <AnimatePresence>
+      {showModalProfile && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.95, y: 20, opacity: 0 }}
+            animate={{ scale: 1, y: 0, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ type: "spring", damping: 25, stiffness: 100 }}
+            className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+          >
+            {/* Header */}
+            <div className="sticky top-0 bg-[#f9f9f9] p-6 flex justify-between items-center z-10">
+              <h2 className="text-xl font-bold flex items-center gap-2">
+                <FiUser className="text-primary" />
+                Compléter votre profil
+              </h2>
+              <button 
+                onClick={() => closeModalProfile()}
+                className="btn btn-circle btn-ghost btn-sm"
+                disabled={isSubmittingProfile}
+              >
+                <FiX className="text-lg" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <form onSubmit={handleSubmitProfile} className="p-6 space-y-6">
+              {errorsProfile.server && (
+                <div className="alert alert-error">
+                  <span>{errorsProfile.server}</span>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Photo de profil */}
+                <div className="md:col-span-2">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="avatar">
+                      <div className="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        {previewImage ? (
+                          <img src={previewImage} alt="Preview" className="object-cover" />
+                        ) : (
+                          <div className="bg-gray-200 text-gray-400 flex items-center justify-center">
+                            <FiUser className="text-3xl" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <label className="btn btn-outline btn-sm gap-2">
+                      <FiImage />
+                      Changer la photo
+                      <input 
+                        type="file" 
+                        className="hidden" 
+                        accept="image/*"
+                        onChange={handleFileChangeProfile}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {/* Téléphone */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text flex items-center gap-1">
+                      <FiPhone />
+                      Téléphone *
+                    </span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formDataProfile.phone}
+                    onChange={handleChangeProfile}
+                    className={`input input-bordered ${errorsProfile.phone ? 'input-error' : ''}`}
+                    placeholder="+237 6XXXXXXXX"
+                  />
+                  {errorsProfile.phone && (
+                    <label className="label">
+                      <span className="label-text-alt text-error">{errorsProfile.phone}</span>
+                    </label>
+                  )}
+                </div>
+
+                {/* Langue */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text flex items-center gap-1">
+                      <FiGlobe />
+                      Langue préférée
+                    </span>
+                  </label>
+                  <select
+                    name="language_id"
+                    value={formDataProfile.language_id}
+                    onChange={handleChangeProfile}
+                    className="select select-bordered"
+                  >
+                    <option value="">Sélectionnez une langue</option>
+                    {languages.map(lang => (
+                      <option key={lang.id} value={lang.id}>{lang.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Adresse */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text flex items-center gap-1">
+                      <FiMapPin />
+                      Adresse complète *
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    value={formDataProfile.address}
+                    onChange={handleChangeProfile}
+                    className={`input input-bordered ${errorsProfile.address ? 'input-error' : ''}`}
+                    placeholder="Rue, ville, quartier..."
+                  />
+                  {errorsProfile.address && (
+                    <label className="label">
+                      <span className="label-text-alt text-error">{errorsProfile.address}</span>
+                    </label>
+                  )}
+                </div>
+
+                {/* Région */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text flex items-center gap-1">
+                      <FiMapPin />
+                      Région *
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    name="region"
+                    value={formDataProfile.region}
+                    onChange={handleChangeProfile}
+                    className={`input input-bordered ${errorsProfile.region ? 'input-error' : ''}`}
+                    placeholder="Votre région"
+                  />
+                  {errorsProfile.region && (
+                    <label className="label">
+                      <span className="label-text-alt text-error">{errorsProfile.region}</span>
+                    </label>
+                  )}
+                </div>
+
+                {/* Coordonnées GPS */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text flex items-center gap-1">
+                      <FiMapPin />
+                      Coordonnées GPS
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    name="gps_coordinates"
+                    value={formDataProfile.gps_coordinates}
+                    onChange={handleChangeProfile}
+                    className="input input-bordered"
+                    placeholder="Latitude, Longitude"
+                  />
+                </div>
+
+                {/* Pour les agriculteurs */}
+                {user?.role === 'farmer' && (
+                  <>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center gap-1">
+                          <FiCrop />
+                          Superficie (hectares)
+                        </span>
+                      </label>
+                      <input
+                        type="number"
+                        name="land_size"
+                        value={formDataProfile.land_size}
+                        onChange={handleChangeProfile}
+                        className={`input input-bordered ${errorsProfile.land_size ? 'input-error' : ''}`}
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                      />
+                      {errorsProfile.land_size && (
+                        <label className="label">
+                          <span className="label-text-alt text-error">{errorsProfile.land_size}</span>
+                        </label>
+                      )}
+                    </div>
+
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center gap-1">
+                          <FiCalendar />
+                          Agriculteur depuis
+                        </span>
+                      </label>
+                      <input
+                        type="number"
+                        name="farming_since"
+                        min="1900"
+                        max={new Date().getFullYear()}
+                        className={`input input-bordered ${errorsProfile.farming_since ? 'input-error' : ''}`}
+                        onChange={(e) => setFormDataProfile({...formDataProfile, farming_since: parseInt(e.target.value) || null})}
+                        placeholder="Année"
+                      />
+                      {errorsProfile.farming_since && (
+                        <label className="label">
+                          <span className="label-text-alt text-error">{errorsProfile.farming_since}</span>
+                        </label>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+
+                {/* Bio */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text flex items-center gap-1">
+                      <FiInfo />
+                      À propos de vous
+                    </span>
+                  </label> <br />
+                  <textarea
+                    name="bio"
+                    value={formDataProfile.bio}
+                    onChange={handleChangeProfile}
+                    className="textarea textarea-bordered h-32 w-full"
+                    placeholder="Décrivez-vous en quelques mots..."
+                    maxLength="500"
+                  />
+                  <label className="label">
+                    <span className="label-text-alt">
+                      {formDataProfile.bio.length}/500 caractères
+                    </span>
+                  </label>
+                </div>
+
+              {/* Footer */}
+              <div className="pt-6 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => closeModalProfile()}
+                  className="btn btn-ghost"
+                  disabled={isSubmittingProfile}
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isSubmittingProfile}
+                >
+                  {isSubmittingProfile ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : 'Enregistrer'}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
     <AnimatePresence>
       {showModalPassword && (

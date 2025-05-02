@@ -4,12 +4,12 @@ function Avatar({user}) {
   return (
     <>
         {user.profile_picture ?
-            <div className="w-24 rounded-full">
-                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            <div className="w-32">
+                <img src={`http://localhost:8000/storage/${user.profile_picture}`} className="rounded-full"/>
             </div>
         : 
-            <div className="w-24 rounded-full">
-                <img src={`https://ui-avatars.com/api/?name=${user?.name}&background=random`} className="rounded-full" />
+            <div className="w-24">
+                <img src={`https://ui-avatars.com/api/?name=${user?.name}&background=random`}  className="rounded-full"/>
             </div>
         }
     </>
