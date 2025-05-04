@@ -136,11 +136,11 @@ const MarketPlace = () => {
   return (
     <>
     <TopNav />
-    <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8 relative">
       {/* En-tête amélioré */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Nos Produits Agricoles</h1>
+          <h1 className="text-3xl font-bold text-secondary uppercase">MarketPlace</h1>
           <p className="text-gray-500 mt-1">{filteredProducts.length} produits disponibles</p>
         </div>
         
@@ -186,7 +186,7 @@ const MarketPlace = () => {
       {/* Panneau de filtres amélioré */}
       {showFilters && (
         <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-center">
             {/* Catégorie avec icône */}
             <div>
               <label className="label">
@@ -209,11 +209,6 @@ const MarketPlace = () => {
 
             {/* Plage de prix améliorée */}
             <div>
-              <label className="label">
-                <span className="label-text flex items-center gap-2">
-                  <FiDollarSign /> Prix
-                </span>
-              </label>
               <div className="space-y-2">
                 <div className="flex justify-between text-xs text-gray-500">
                   <span>0 FCFA</span>
@@ -238,7 +233,19 @@ const MarketPlace = () => {
                   <FiSliders /> Options
                 </span>
               </label>
-              <div className="space-y-3">
+                <select
+                  className="select select-bordered w-full bg-gray-50"
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <option value="all">Tous statuts</option>
+                  <option value="available">Disponible</option>
+                  <option value="sold_out">Rupture</option>
+                </select>
+            </div>
+
+            
+            <div className="mt-0 sm:mt-5">
                 <label className="flex items-center gap-3 cursor-pointer">
                   <input
                     type="checkbox"
@@ -250,16 +257,6 @@ const MarketPlace = () => {
                     Produits bio
                   </span>
                 </label>
-                <select
-                  className="select select-bordered w-full bg-gray-50"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
-                  <option value="all">Tous statuts</option>
-                  <option value="available">Disponible</option>
-                  <option value="sold_out">Rupture</option>
-                </select>
-              </div>
             </div>
 
             {/* Tri avec icône */}
@@ -387,7 +384,7 @@ const MarketPlace = () => {
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
                       <FiPackage className="inline mr-1" />
-                      {product.quantity_available} disponible(s)
+                      {product.quantity_available} {product.unit} disponible(s)
                     </p>
                   </div>
 

@@ -97,9 +97,8 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const deleteProject = async (id) => {
-    console.log(token);
     await axios.get('/sanctum/csrf-cookie');
-    await axios.delete(`/api/projects/${id}`, {}, {
+    await axios.delete(`/api/projects/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       }

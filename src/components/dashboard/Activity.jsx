@@ -97,7 +97,7 @@ const Activity = ({ userId }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="card bg-base-100 shadow-xs hover:shadow-md transition-shadow"
+            className="card bg-base-100 shadow-xs hover:shadow-md transition-shadow border border-gray-100"
           >
             <div className="card-body">
               <div className="flex items-center gap-3 mb-2">

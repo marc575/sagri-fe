@@ -96,7 +96,7 @@ export const ActivityProvider = ({ children }) => {
 
   const deleteActivity = async (id) => {
     await axios.get('/sanctum/csrf-cookie');
-    await axios.delete(`/api/activities/${id}`, {}, {
+    await axios.delete(`/api/activities/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",

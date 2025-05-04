@@ -49,7 +49,7 @@ const Product = ({ userId }) => {
     const { name, value, type, checked } = e.target;
     setFormDataProduct(prev => ({ 
       ...prev, 
-      [name]: type === 'checkbox' ? checked ? 1 : 0 // Conversion explicite
+      [name]: type === 'checkbox' ? checked ? 1 : 0
       : value
     }));
   };
@@ -83,11 +83,9 @@ const Product = ({ userId }) => {
     e.preventDefault();
     try {
       if (currentProduct) {
-        console.log(formDataProduct);
         await updateProduct(formDataProduct, currentProduct.id);
         setModalOpenProduct(false);
       } else {
-        console.log(formDataProduct);
         await postProduct(formDataProduct);
         setModalOpenProduct(false);
       }
@@ -97,7 +95,8 @@ const Product = ({ userId }) => {
     }
   };
 
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteProduct = async (e, id) => {
+    e.preventDefault();
     try {
         await deleteProduct(id);
     } catch (error) {
@@ -140,7 +139,7 @@ const Product = ({ userId }) => {
                 <img 
                   src={`http://localhost:8000/storage/${product.image}`} 
                   alt={product.name} 
-                  className="w-full h-48 object-contain"
+                  className="w-full h-48 object-cover"
                 />
               ) : (
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
@@ -177,7 +176,7 @@ const Product = ({ userId }) => {
                 <button onClick={() => openModalProduct(product)} className="btn btn-sm btn-ghost gap-1 border-success hover:bg-success">
                   <FiEdit2 /> Modifier
                 </button>
-                <button onClick={() => handleDeleteProduct(product.id)} className="btn btn-sm btn-ghost text-error gap-1 border-error hover:bg-error hover:text-white">
+                <button onClick={(e) => handleDeleteProduct(e, product.id)} className="btn btn-sm btn-ghost text-error gap-1 border-error hover:bg-error hover:text-white">
                   <FiTrash2 /> Supprimer
                 </button>
               </div>
@@ -201,14 +200,14 @@ const Product = ({ userId }) => {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 100 }}
-              className="modal-box w-full max-w-2xl relative bg-white shadow-xl rounded-lg p-6"
+              className="modal-box w-full max-w-2xl relative bg-white shadow-xl rounded-xl p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <button onClick={closeModalProduct} className="btn btn-sm btn-circle absolute right-2 top-2 z-10">
+              <button onClick={closeModalProduct} className="btn btn-sm btn-circle absolute right-4 top-4 z-10">
                 <FiX />
               </button>
               
-              <h3 className="text-2xl font-bold mb-4">
+              <h3 className="text-2xl font-bold mb-10 mt-4">
                 {currentProduct ? 'Modifier le Produit' : 'Ajouter un Nouveau Produit'}
               </h3>
 
@@ -282,7 +281,7 @@ const Product = ({ userId }) => {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text">Prix par unité (€)</span>
+                      <span className="label-text">Prix par unité (FCFA)</span>
                     </label>
                     <input
                       type="number"

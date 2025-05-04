@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEye, FaEdit } from "react-icons/fa";
 import { FiX, FiUser, FiTruck, FiShoppingBag, FiAlertCircle, FiPackage } from 'react-icons/fi';
 import { useOrder } from "../../context/OrderContext";
+import { useAuth } from "../../context/AuthContext";
 import Loading from "../ui/Loading";
 
 export default function Order() {
-    const { userOrders: orders, updateOrder, OrdersLoading } = useOrder();
+    const { orders, updateOrder, OrdersLoading } = useOrder();
+    const { user } = useAuth();
 
+    const [userOrders, setUserOrders] = useState(localStorage.getItem('orders') || '');
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showModalUpdate, setShowModalUpdate] = useState(false);
@@ -18,6 +21,39 @@ export default function Order() {
       status: "",
       notes: "",
     });
+
+    const getStatusLabel = (statut) => {
+      const status = {
+        pending: 'Attente de validation',
+        confirmed: 'Confirmée',
+        cancelled: 'Annulée',
+        delivered: 'Livrée',
+      };
+      return <span className={`badge ${statusColors[statut]}`}>{status[statut] || statut}</span>;
+    };
+
+    const getDeliveryType = (delivery) => {
+      const deliveryType = {
+        pickup: 'Livreur indépendant',
+        buyer_delivery: 'Livraison par le client',
+        farmer_delivery: 'Livraison par le fournisseur',
+      };
+      return deliveryType[delivery] || delivery;
+    };
+
+    const statusColors = {
+      pending: 'bg-blue-100 text-blue-800',
+      confirmed: 'bg-green-100 text-green-800',
+      cancelled: 'bg-red-100 text-red-800',
+      delivered: 'bg-gray-100 text-gray-800'
+    };
+
+    useEffect(() => {
+      const ordersArray = Array.isArray(orders) ? orders : [];
+      setUserOrders(ordersArray.filter(order => 
+        order.buyer?.id === user?.id || order.farmer?.id === user?.id
+      ));
+    }, [orders])
     
     const openModal = (order) => {
       setSelectedOrder(order);
@@ -67,24 +103,29 @@ export default function Order() {
     
 
   return (
-    <div className="container mx-auto pt-12 px-2">
-      <h2 className="text-xl font-bold mb-4 text-secondary">Commandes reçues</h2>
-      <div className="grid gap-4">
-        {Array.isArray(orders) && orders.map((order) => (
+    <div className="container mx-auto py-12 px-2">
+      <h2 className="text-xl font-bold mb-4 text-secondary">Commandes</h2>
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {Array.isArray(userOrders) && userOrders.map((order) => (
           <div
             key={order.id}
-            className="bg-white shadow rounded-xl p-6 flex justify-between items-center hover:bg-gray-50 transition border border-[#FDFAD0]"
+            className={`shadow rounded-xl p-6 flex justify-between items-center transition ${
+              order.buyer.id === user?.id ? 'bg-[#FDFAD0]' : null
+            } ${
+              order.farmer.id === user?.id ? 'bg-white' : null
+            }
+          `}
           >
             <div>
-              <h3 className="text-sm font-semibold text-secondary">Commande #{order.id} - {new Date(order.created_at).toLocaleDateString('fr-FR', {
+              <h3 className="text-sm font-semibold text-secondary mb-3">Commande #{order.id} - {new Date(order.created_at).toLocaleDateString('fr-FR', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
                     })}</h3>
-              <p className="text-xs text-gray-500">
-                Acheteur: {order?.buyer?.name} • {order?.total_amount} FCFA • {order?.status}
+              <p className="text-sm text-secondary">
+                Acheteur: {order?.buyer?.name} • {order?.total_amount} FCFA • {getStatusLabel(order?.status)}
               </p>
             </div>
             <div className="flex gap-4">
@@ -122,14 +163,7 @@ export default function Order() {
                 <div className="bg-primary px-6 py-4 text-white">
                 <div className="flex justify-between items-center">
                     <h3 className="text-xl font-bold">
-                    Commande #{selectedOrder.id}
-                    <span className={`ml-3 badge ${
-                        selectedOrder.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                        selectedOrder.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                        'bg-yellow-100 text-yellow-800'
-                    }`}>
-                        {selectedOrder.status}
-                    </span>
+                      Commande #{selectedOrder.id} {getStatusLabel(selectedOrder.status)}
                     </h3>
                     <button 
                     onClick={closeModal}
@@ -172,17 +206,17 @@ export default function Order() {
                     </h4>
                     <div className="space-y-2 text-sm">
                         <p>
-                        <span className="font-medium">Type:</span> 
-                        <span className="capitalize"> {selectedOrder.delivery_type.replace('_', ' ')}</span>
+                        <span className="font-medium">Type: </span> 
+                        <span className="capitalize"> {getDeliveryType(selectedOrder.delivery_type)}</span>
                         </p>
                         {selectedOrder.delivery_address && (
                         <p>
-                            <span className="font-medium">Adresse:</span> 
+                            <span className="font-medium">Adresse: </span> 
                             {selectedOrder.delivery_address}
                         </p>
                         )}
                         <p>
-                        <span className="font-medium">Montant total:</span> 
+                        <span className="font-medium">Montant total: </span> 
                         <span className="font-bold text-primary ml-1">
                             {selectedOrder.total_amount.toLocaleString('fr-FR')} FCFA
                         </span>
@@ -217,7 +251,7 @@ export default function Order() {
                                     <div className="avatar">
                                     <div className="w-12 h-12 rounded-md">
                                         <img 
-                                        src={`/storage/${item.product.image}`} 
+                                        src={`http://localhost:8000/storage/${item.product.image}`} 
                                         alt={item.product.name} 
                                         className="object-cover"
                                         />

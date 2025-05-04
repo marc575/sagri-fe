@@ -79,13 +79,13 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const formData = new FormData();
-      
-      Object.entries(data).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          formData.append(key, value);
-        }
-      });
+        const formData = new FormData();
+        
+        Object.entries(data).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            formData.append(key, value);
+          }
+        });
 
         await axios.get('/sanctum/csrf-cookie');
         await axios.post('/api/products', formData, {
@@ -97,6 +97,7 @@ export const ProductProvider = ({ children }) => {
             validateStatus: (status) => status < 500
         });
         await getProducts(token);
+        await getAllProducts(token);
     } catch (err) {
       setError(err.response?.data?.message || 'Une erreur est survenue !');
     } finally {
@@ -116,15 +117,15 @@ export const ProductProvider = ({ children }) => {
         }
       });
       await axios.get('/sanctum/csrf-cookie');
-      await axios.put(`/api/products/${id}`, formData, {
+      await axios.patch(`/api/products/${id}`, formData, {
         headers: { 
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
             'Content-Type': 'multipart/form-data'
-            },
-            validateStatus: (status) => status < 500
+            }
         });
         await getProducts(token);
+        await getAllProducts(token);
     } catch (err) {
       setError(err.response?.data?.message || "Une erreur est survenue !");
     } finally {
@@ -134,14 +135,15 @@ export const ProductProvider = ({ children }) => {
 
   const deleteProduct = async (id) => {
     await axios.get('/sanctum/csrf-cookie');
-    await axios.delete(`/api/products/${id}`, {}, {
+    await axios.delete(`/api/products/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
-        ContentType: "application/json"
+        'Content-Type': 'multipart/form-data'
       }
     });
     await getProducts(token);
+    await getAllProducts(token);
   };
 
   return (

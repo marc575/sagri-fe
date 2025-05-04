@@ -9,7 +9,6 @@ export const OrderProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [user, setUser] = useState(localStorage.getItem('user') || '');
   const [orders, setOrders] = useState(localStorage.getItem('orders') || '');
-  const [userOrders, setUserOrders] = useState(localStorage.getItem('orders') || '');
   const [order, setOrder] = useState(localStorage.getItem('order') || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -35,10 +34,6 @@ export const OrderProvider = ({ children }) => {
 
   useEffect(() => {
     getOrders(token);
-    const ordersArray = Array.isArray(orders) ? orders : [];
-    setUserOrders(ordersArray.filter(order => 
-      order.buyer?.id === user?.id || order.farmer?.id === user?.id
-    ));
   }, [token])
 
   const showOrder = async (id, token) => {
@@ -102,7 +97,7 @@ export const OrderProvider = ({ children }) => {
 
   const deleteOrder = async (id) => {
     await axios.get('/sanctum/csrf-cookie');
-    await axios.delete(`/api/orders/${id}`, {}, {
+    await axios.delete(`/api/orders/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -115,7 +110,6 @@ export const OrderProvider = ({ children }) => {
   return (
     <OrderContext.Provider value={{
       orders,
-      userOrders,
       order,
       showOrder,
       postOrder,

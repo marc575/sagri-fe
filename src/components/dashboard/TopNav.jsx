@@ -127,14 +127,11 @@ function TopNav() {
 
   const openModalProfile = () => {
     setShowModalProfile(true);
-    console.log("ouvert");
   };
   
   const closeModalProfile = () => {
     setShowModalProfile(false);
-    console.log("fermé");
   };
-
 
 
   const openModal = (user) => {
@@ -204,7 +201,7 @@ function TopNav() {
     <div className='bg-[#FDFAD0] shadow-sm'>
       <div className="navbar container mx-auto">
         <div className="flex-1">
-          <a className="text-xl" href='/me'><img src={logo} alt="logo" width="50"/> </a>
+          <a className="text-xl" href='/dashboard'><img src={logo} alt="logo" width="50"/> </a>
         </div>
         <div className="flex gap-2">
         <label className="input">
@@ -229,6 +226,11 @@ function TopNav() {
             <ul
               tabIndex={0}
               className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+              <li>
+                <a href='/me'>
+                  Mon Compte
+                </a>
+              </li>
               <li>
                 <a onClick={() => openModal(user)}>
                   Profile
@@ -269,9 +271,9 @@ function TopNav() {
             className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-[#f9f9f9] p-6 flex justify-between items-center z-10">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <FiUser className="text-primary" />
+            <div className="sticky top-0 bg-primary p-6 flex justify-between items-center z-10">
+              <h2 className="text-xl font-bold flex items-center gap-2 text-white">
+                <FiUser className="" />
                 Compléter votre profil
               </h2>
               <button 
@@ -300,7 +302,7 @@ function TopNav() {
                         {previewImage ? (
                           <img src={previewImage} alt="Preview" className="object-cover" />
                         ) : (
-                          <div className="bg-gray-200 text-gray-400 flex items-center justify-center">
+                          <div className="bg-gray-200 text-gray-400 flex items-center justify-center h-full">
                             <FiUser className="text-3xl" />
                           </div>
                         )}
