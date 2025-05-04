@@ -125,3 +125,138 @@ Affichage responsive (grille sur 3 colonnes en grand écran)
 Limitation de la description à 3 lignes avec line-clamp-3
 
 Animation lors de l'apparition des éléments
+
+Fonctionnalités implémentées :
+Système de panier complet :
+
+Ajout/retrait d'articles
+
+Modification des quantités
+
+Calcul automatique du total
+
+Panneau Offcanvas :
+
+Affichage responsive
+
+Animation d'ouverture/fermeture
+
+Récapitulatif clair des articles
+
+Page de commande :
+
+Formulaire de livraison complet
+
+Choix de méthode de paiement
+
+Récapitulatif de la commande
+
+Confirmation de commande
+
+Expérience utilisateur :
+
+Indicateur visuel du nombre d'articles
+
+Feedback visuel lors des interactions
+
+Validation de formulaire
+
+États de chargement
+
+Système de panier complet :
+
+Ajout/retrait d'articles
+
+Modification des quantités
+
+Calcul automatique du total
+
+Panneau Offcanvas :
+
+Affichage responsive
+
+Animation d'ouverture/fermeture
+
+Récapitulatif clair des articles
+
+Page de commande :
+
+Formulaire de livraison complet
+
+Choix de méthode de paiement
+
+Récapitulatif de la commande
+
+Confirmation de commande
+
+Expérience utilisateur :
+
+Indicateur visuel du nombre d'articles
+
+Feedback visuel lors des interactions
+
+Validation de formulaire
+
+États de chargement
+
+. Adaptations pour votre schéma d'API
+Farmer_id : J'ai supposé que tous les produits du panier venaient du même fermier. Si ce n'est pas le cas, vous devrez :
+
+Soit gérer les commandes multi-fermiers
+
+Soit regrouper les produits par fermier avant de passer commande
+
+Statut : Mis par défaut à "pending" comme requis
+
+Items : Formaté exactement comme demandé avec :
+
+product_id
+
+quantity
+
+unit_price
+
+total_price
+
+Validation : Tous les champs requis sont inclus :
+
+buyer_id (récupéré de l'utilisateur connecté)
+
+farmer_id
+
+total_amount
+
+delivery_type
+
+status
+
+items
+
+Fonctionnalités clés :
+Expérience utilisateur complète :
+
+Modal propre avec états de chargement
+
+Retour visuel en cas de succès/échec
+
+Panier vidé après commande réussie
+
+Adapté à votre API :
+
+Structure de données conforme
+
+Tous les champs requis inclus
+
+Gestion des erreurs
+
+UI professionnelle :
+
+Icônes pour une meilleure lisibilité
+
+Options de livraison claires
+
+Récapitulatif visible pendant la commande
+
+Responsive :
+
+Adapté aux mobiles et desktop

@@ -8,6 +8,7 @@ axios.defaults.baseURL = "http://localhost:8000";
 export const ProductProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [products, setProducts] = useState(localStorage.getItem('products') || '');
+  const [allProducts, setAllProducts] = useState(localStorage.getItem('allProducts') || '');
   const [product, setProduct] = useState(localStorage.getItem('product') || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,8 +32,28 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const getAllProducts = async (token) => {
+    if (token) {
+      try {
+        await axios.get('/sanctum/csrf-cookie');
+        const response = await axios.get('/api/products/all', {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            ContentType: "application/json"
+            }
+        });
+        setAllProducts(response?.data.data);
+        localStorage.setItem('allProducts', allProducts);
+      } catch (err) {
+        setError(err.response?.data?.message || 'Une erreur est survenue !');
+      }
+    }
+  };
+
   useEffect(() => {
     getProducts(token);
+    getAllProducts(token);
   }, [token])
 
   const showProduct = async (id, token) => {
@@ -58,13 +79,22 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
+      const formData = new FormData();
+      
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value);
+        }
+      });
+
         await axios.get('/sanctum/csrf-cookie');
-        await axios.post('/api/products', data, {
+        await axios.post('/api/products', formData, {
         headers: { 
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
-            ContentType: "multipart/form-data"
-            }
+            'Content-Type': 'multipart/form-data'
+            },
+            validateStatus: (status) => status < 500
         });
         await getProducts(token);
     } catch (err) {
@@ -78,12 +108,21 @@ export const ProductProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
+      const formData = new FormData();
+      
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value);
+        }
+      });
       await axios.get('/sanctum/csrf-cookie');
-      await axios.put(`/api/products/${id}`, data, {
+      await axios.put(`/api/products/${id}`, formData, {
         headers: { 
             Authorization: `Bearer ${token}`,
-            ContentType: "multipart/form-data"
-            }
+            Accept: "application/json",
+            'Content-Type': 'multipart/form-data'
+            },
+            validateStatus: (status) => status < 500
         });
         await getProducts(token);
     } catch (err) {
@@ -108,6 +147,7 @@ export const ProductProvider = ({ children }) => {
   return (
     <ProductContext.Provider value={{
       products,
+      allProducts,
       product,
       showProduct,
       postProduct,

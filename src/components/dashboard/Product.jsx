@@ -29,13 +29,28 @@ const Product = ({ userId }) => {
   const units = ['kg', 'g', 'L', 'mL', 'piece', 'dozen', 'box'];
   
   // Catégories disponibles
-  const categories = ['vegetables', 'fruits', 'dairy', 'meat', 'grains', 'processed', 'other'];
+  const categories = [
+    'Agriculture',
+    'Élevage',
+    'Transformation',
+    'Commercialisation',
+    'Recherche'
+  ];
+
+  const getStatusLabel = (statut) => {
+    const status = {
+      available: 'Disponible',
+      sold_out: 'Rupture',
+    };
+    return <span className={`badge ${statusColors[statut]}`}>{status[statut] || statut}</span>;
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormDataProduct(prev => ({ 
       ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
+      [name]: type === 'checkbox' ? checked ? 1 : 0 // Conversion explicite
+      : value
     }));
   };
 
@@ -91,20 +106,20 @@ const Product = ({ userId }) => {
   };
 
   const statusColors = {
+    coming_soon: 'bg-blue-100 text-blue-800',
     available: 'bg-green-100 text-green-800',
-    sold_out: 'bg-red-100 text-red-800',
-    coming_soon: 'bg-blue-100 text-blue-800'
+    sold_out: 'bg-red-100 text-red-800'
   };
 
   if (isLoading) return <Loading/>;
 
   return (
-    <div className="container mx-auto py-12 px-4 border-t-4 border-[#FDFAD0]">
+    <div className="container mx-auto py-12 px-2 border-t-2 border-[#FDFAD0]">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-secondary">Mes Produits</h1>
+        <h1 className="text-xl font-bold text-secondary">Mes Produits</h1>
         <button
           onClick={() => openModalProduct()}
-          className="btn btn-primary gap-2"
+          className="btn btn-primary gap-2 btn-sm"
         >
           <FiPlus /> Nouveau Produit
         </button>
@@ -118,14 +133,14 @@ const Product = ({ userId }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="card bg-base-100 shadow-md hover:shadow-xl transition-shadow"
+            className="card bg-base-100 shadow-xs hover:shadow-md transition-shadow border border-[#FDFAD0]"
           >
             <figure>
               {product.image ? (
                 <img 
-                  src={`/storage/${product.image}`} 
+                  src={`http://localhost:8000/storage/${product.image}`} 
                   alt={product.name} 
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-contain"
                 />
               ) : (
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
@@ -135,23 +150,21 @@ const Product = ({ userId }) => {
             </figure>
             <div className="card-body">
               <div className="flex justify-between items-start">
-                <h2 className="card-title text-secondary text-xl">{product.name}</h2>
-                <span className={`badge ${statusColors[product.status]}`}>
-                  {product.status}
-                </span>
+                <h2 className="card-title text-secondary text-lg">{product.name}</h2>
+                { getStatusLabel(product.status) }
               </div>
               
-              <div className="mt-2 space-y-2">
+              <div className="mt-2 flex flex-wrap gap-4 items-center">
                 <div className="flex items-center gap-2">
-                  <FiDollarSign className="text-gray-500" />
-                  <span>{product.price_per_unit} €/{product.unit}</span>
+                  <FiDollarSign className="text-secondary" />
+                  <span>{product.price_per_unit} FCFA/{product.unit}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FiTag className="text-gray-500" />
+                  <FiTag className="text-secondary" />
                   <span>{product.quantity_available} {product.unit} disponibles</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FiCheckCircle className="text-gray-500" />
+                  <FiCheckCircle className="text-secondary" />
                   <span>{product.category} {product.is_organic ? '(Bio)' : null }</span>
                 </div>
               </div>
@@ -161,10 +174,10 @@ const Product = ({ userId }) => {
               )}
 
               <div className="card-actions justify-end mt-4">
-                <button onClick={() => openModalProduct(product)} className="btn btn-sm btn-ghost gap-1">
+                <button onClick={() => openModalProduct(product)} className="btn btn-sm btn-ghost gap-1 border-success hover:bg-success">
                   <FiEdit2 /> Modifier
                 </button>
-                <button onClick={() => handleDeleteProduct(product.id)} className="btn btn-sm btn-ghost text-error gap-1">
+                <button onClick={() => handleDeleteProduct(product.id)} className="btn btn-sm btn-ghost text-error gap-1 border-error hover:bg-error hover:text-white">
                   <FiTrash2 /> Supprimer
                 </button>
               </div>
@@ -367,7 +380,7 @@ const Product = ({ userId }) => {
                         className="checkbox checkbox-primary"
                       />
                     </label>
-                  </div>
+                </div>
 
                 <div className="modal-action">
                   <button type="button" onClick={closeModalProduct} className="btn btn-ghost">

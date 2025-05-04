@@ -1,5 +1,4 @@
-import { createContext, useState, useEffect, useCallback, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 const ActivityContext = createContext();
@@ -12,9 +11,8 @@ export const ActivityProvider = ({ children }) => {
   const [activity, setActivity] = useState(localStorage.getItem('activity') || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
-  const getActivities = useCallback(async (token) => {
+  const getActivities = async (token) => {
     if (token) {
       try {
         await axios.get('/sanctum/csrf-cookie');
@@ -31,7 +29,7 @@ export const ActivityProvider = ({ children }) => {
         setError(err.response?.data?.message || 'Une erreur est survenue !');
       }
     }
-  }, [navigate]);
+  };
 
   useEffect(() => {
     getActivities(token);

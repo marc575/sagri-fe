@@ -23,8 +23,7 @@ const Activity = ({ userId }) => {
     'Élevage',
     'Transformation',
     'Commercialisation',
-    'Recherche',
-    'Formation'
+    'Recherche'
   ];
 
   const handleInputChange = (e) => {
@@ -81,10 +80,10 @@ const Activity = ({ userId }) => {
   return (
     <div className="container mx-auto py-12">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-secondary">Mes Activités</h1>
+        <h1 className="text-xl font-bold text-secondary">Mes Activités</h1>
         <button
           onClick={() => openModalActivity()}
-          className="btn btn-primary gap-2"
+          className="btn btn-primary gap-2 btn-sm"
         >
           <FiPlus /> Nouvelle Activité
         </button>
@@ -98,36 +97,33 @@ const Activity = ({ userId }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="card bg-base-100 shadow-md hover:shadow-xl transition-shadow"
+            className="card bg-base-100 shadow-xs hover:shadow-md transition-shadow"
           >
             <div className="card-body">
               <div className="flex items-center gap-3 mb-2">
                 <FiActivity className="text-xl text-secondary" />
-                <h2 className="card-title text-secondary text-xl">{activity.name}</h2>
+                <div className="card-title text-secondary text-lg space-x-2">
+                  <h2>{activity.name} <span className="p-2 text-xs badge badge-secondary"><FiTag />{activity.category}</span></h2>
+                </div>
               </div>
               
-              <div className="flex items-center gap-2 mb-2">
-                <FiTag className="text-gray-500" />
-                <span className="badge badge-outline">{activity.category}</span>
-              </div>
 
               {activity.description && (
                 <div className="flex items-start gap-2">
-                  <FiAlignLeft className="text-gray-500 mt-1 flex-shrink-0" />
                   <Description description={activity.description} />
                 </div>
               )}
 
-              <div className="card-actions justify-end mt-4">
+              <div className="card-actions justify-end mt-2">
                 <button 
                   onClick={() => openModalActivity(activity)} 
-                  className="btn btn-sm btn-ghost gap-1"
+                  className="btn btn-sm btn-ghost gap-1 border-success hover:bg-success"
                 >
                   <FiEdit2 /> Modifier
                 </button>
                 <button 
                   onClick={() => handleDeleteActivity(activity.id)} 
-                  className="btn btn-sm btn-ghost text-error gap-1"
+                  className="btn btn-sm btn-ghost text-error gap-1 border-error hover:bg-error hover:text-white"
                 >
                   <FiTrash2 /> Supprimer
                 </button>

@@ -12,8 +12,8 @@ function me() {
     <Layout>
       <Profile user={user} />
       <Order />
-      <Project userId={user?.id} />
       <Product userId={user?.id} />
+      <Project userId={user?.id} />
     </Layout>
   )
 }

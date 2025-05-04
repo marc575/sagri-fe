@@ -1,12 +1,12 @@
 import React from 'react';
 import img from '../../assets/img/1.jpg'
 import Avatar from '../ui/Avatar';
-import { FiPhone, FiMail, FiFolder, FiMapPin } from 'react-icons/fi';
+import { FiPhone, FiMail, FiFolder, FiMapPin, FiActivity } from 'react-icons/fi';
 
 function Profile({user}) {
   return (
     <div>
-        <div className="card bg-base-100 w-full shadow-sm border-2 border-[#FDFAD0]">
+        <div className="card bg-base-100 w-full shadow-sm border border-[#FDFAD0]">
             <figure>
                 <img
                 src={img}
@@ -16,18 +16,18 @@ function Profile({user}) {
             </figure>
             <div className="card-body">
                 <div className='absolute top-54'>
-                    <Avatar user={user} className='w-98'/>
+                    <Avatar user={user} className='w-100 rounded-full'/>
                 </div>
-                <h2 className="card-title text-secondary text-2xl pt-5">
+                <h2 className="card-title text-secondary text-2xl pt-8 capitalize">
                     {user?.name}
-                <div className="badge badge-secondary"><FiFolder /> {user?.role}</div>
+                    <span className="badge badge-secondary"><FiActivity /> {user?.role}</span>
                 </h2>
                 <p>{user?.bio}</p>
                 <div className="card-actions flex justify-between mt-3">
-                    <div className="badge badge-outline italic p-2 border-[#FDFAD0]"><FiMapPin /> {user?.address}</div>
-                    <div className='space-x-4'>
-                        <div className="badge badge-outline italic p-2 border-[#FDFAD0]"><FiMail /> {user?.email}</div>
-                        <div className="badge badge-outline italic p-2 border-[#FDFAD0]"><FiPhone /> {user?.phone}</div>
+                    <div className="badge bg-[#FDFAD0] italic p-4 text-secondary"><FiMapPin /> {user?.address}</div>
+                    <div className='space-x-4 space-y-2 md:space-y-0'>
+                        <div className="badge bg-[#FDFAD0] italic p-4 text-secondary"><FiMail /> {user?.email}</div>
+                        <div className="badge bg-[#FDFAD0] italic p-4 text-secondary"><FiPhone /> {user?.phone}</div>
                     </div>
                 </div>
             </div>

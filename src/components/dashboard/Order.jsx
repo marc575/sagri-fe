@@ -6,7 +6,7 @@ import { useOrder } from "../../context/OrderContext";
 import Loading from "../ui/Loading";
 
 export default function Order() {
-    const { orders, updateOrder, OrdersLoading } = useOrder();
+    const { userOrders: orders, updateOrder, OrdersLoading } = useOrder();
 
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -67,23 +67,23 @@ export default function Order() {
     
 
   return (
-    <div className="container mx-auto pt-12 px-4">
-      <h2 className="text-3xl font-bold mb-4 text-secondary">Commandes reçues</h2>
+    <div className="container mx-auto pt-12 px-2">
+      <h2 className="text-xl font-bold mb-4 text-secondary">Commandes reçues</h2>
       <div className="grid gap-4">
         {Array.isArray(orders) && orders.map((order) => (
           <div
             key={order.id}
-            className="bg-white shadow rounded-xl p-6 flex justify-between items-center hover:bg-gray-50 transition"
+            className="bg-white shadow rounded-xl p-6 flex justify-between items-center hover:bg-gray-50 transition border border-[#FDFAD0]"
           >
             <div>
-              <h3 className="text-lg font-semibold text-secondary">Commande #{order.id} - {new Date(order.created_at).toLocaleDateString('fr-FR', {
+              <h3 className="text-sm font-semibold text-secondary">Commande #{order.id} - {new Date(order.created_at).toLocaleDateString('fr-FR', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
                     })}</h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-xs text-gray-500">
                 Acheteur: {order?.buyer?.name} • {order?.total_amount} FCFA • {order?.status}
               </p>
             </div>

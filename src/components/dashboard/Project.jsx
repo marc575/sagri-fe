@@ -77,18 +77,26 @@ const Project = ({ userId }) => {
     planned: 'bg-blue-100 text-blue-800',
     in_progress: 'bg-yellow-100 text-yellow-800',
     completed: 'bg-green-100 text-green-800',
-    cancelled: 'bg-red-100 text-red-800'
+  };
+
+  const getStatusLabel = (statut) => {
+    const status = {
+      planned: 'Planifié',
+      in_progress: 'En cours',
+      completed: 'Completé',
+    };
+    return <span className={`badge ${statusColors[statut]}`}>{status[statut] || statut}</span>;
   };
 
   if (isLoading) return <Loading/>;
 
   return (
-    <div className="container mx-auto mt-12 py-12 px-4 border-t-4 border-[#FDFAD0]">
+    <div className="container mx-auto mt-12 py-12 px-2 border-t-2 border-[#FDFAD0]">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-secondary">Mes Projets</h1>
+        <h1 className="text-xl font-bold text-secondary">Mes Projets</h1>
         <button
           onClick={() => openModal()}
-          className="btn btn-primary gap-2"
+          className="btn btn-primary gap-2 btn-sm" 
         >
           <FiPlus /> Nouveau Projet
         </button>
@@ -102,39 +110,37 @@ const Project = ({ userId }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="card bg-base-100 shadow-md hover:shadow-xl transition-shadow border-[#FDFAD0]"
+            className="card bg-base-100 shadow-xs hover:shadow-md transition-shadow border-[#FDFAD0]"
           >
             <div className="card-body">
               <div className="flex justify-between items-start">
-                <h2 className="card-title text-secondary text-xl">{project.name}</h2>
-                <span className={`badge ${statusColors[project.status]}`}>
-                  {project.status}
-                </span>
+                <h2 className="card-title text-secondary text-lg">{project.name}</h2>
+                { getStatusLabel(project.status) }
               </div>
               <Description description={project.description} />
               
-              <div className="mt-4 space-y-2">
+              <div className="mt-4 flex flex-wrap gap-6 items-center">
                 <div className="flex items-center gap-2 text-sm">
-                  <FiCalendar className="text-gray-500" />
+                  <FiCalendar className="text-secondary" />
                   <span>{new Date(project.start_date).toLocaleDateString()} - {project.end_date ? new Date(project.end_date).toLocaleDateString() : 'Present'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <FiInfo className="text-gray-500" />
+                  <FiInfo className="text-secondary" />
                   <span>
                     {activities.find(a => a.id === project.activity_id)?.name || 'Aucune activité !'}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <FiCheckCircle className="text-gray-500" />
+                  <FiCheckCircle className="text-secondary" />
                   <span>{project.total_surface} m²</span>
                 </div>
               </div>
 
               <div className="card-actions justify-end mt-4">
-                <button onClick={() => openModal(project)} className="btn btn-sm btn-ghost gap-1">
+                <button onClick={() => openModal(project)} className="btn btn-sm btn-ghost gap-1 border-success hover:bg-success">
                   <FiEdit2 /> Modifier
                 </button>
-                <button onClick={() => handleDelete(project.id)} className="btn btn-sm btn-ghost text-error gap-1">
+                <button onClick={() => handleDelete(project.id)} className="btn btn-sm btn-ghost text-error gap-1 border-error hover:bg-error hover:text-white">
                   <FiTrash2 /> Supprimer
                 </button>
               </div>
@@ -247,7 +253,6 @@ const Project = ({ userId }) => {
                       <option value="planned">Planifié</option>
                       <option value="in_progress">En cours</option>
                       <option value="completed">Terminé</option>
-                      <option value="cancelled">Annulé</option>
                     </select>
                   </div>
 

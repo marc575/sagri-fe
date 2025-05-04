@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import { AuthProvider } from './context/AuthContext';
 import Auth from './pages/Auth';
-import { Dashboard } from './components/dashboard/Dashboard';
+import MarketPlace from './pages/MarketPlace';
 import { ProtectedRoute } from './components/dashboard/ProtectedRoute';
 import Blog from './pages/Blog';
 import Me from './pages/me';
@@ -30,7 +30,7 @@ function App() {
             path="/dashboard" 
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <MarketPlace />
               </ProtectedRoute>
             } 
           />

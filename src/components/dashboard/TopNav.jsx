@@ -204,7 +204,7 @@ function TopNav() {
     <div className='bg-[#FDFAD0] shadow-sm'>
       <div className="navbar container mx-auto">
         <div className="flex-1">
-          <a className="text-xl" href='/blog'><img src={logo} alt="logo" width="50"/> </a>
+          <a className="text-xl" href='/me'><img src={logo} alt="logo" width="50"/> </a>
         </div>
         <div className="flex gap-2">
         <label className="input">
