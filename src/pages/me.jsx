@@ -6,16 +6,21 @@ import Project from '../components/dashboard/Project';
 import Product from '../components/dashboard/Product';
 import Order from '../components/dashboard/Order';
 
-function me() {
+export default function me() {
   const { user } = useAuth();
   return (
     <Layout>
       <Profile user={user} />
-      <Order />
-      <Product userId={user?.id} />
-      <Project userId={user?.id} />
+      {
+        user?.status === 1 ? (
+          <>
+            <Order />
+            <Product userId={user?.id} />
+            <Project userId={user?.id} />
+          </>
+        ) : null
+      }
     </Layout>
   )
 }
 
-export default me

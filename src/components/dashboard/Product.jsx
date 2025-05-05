@@ -20,7 +20,7 @@ const Product = ({ userId }) => {
     unit: 'kg',
     price_per_unit: '',
     category: '',
-    is_organic: false,
+    is_organic: 0,
     status: 'available',
     user_id: userId
   });
@@ -58,7 +58,7 @@ const Product = ({ userId }) => {
     setCurrentProduct(product);
     setFormDataProduct(product ? { 
       ...product,
-      is_organic: product.is_organic || false
+      is_organic: product.is_organic || 0
     } : {
       name: '',
       description: '',
@@ -67,7 +67,7 @@ const Product = ({ userId }) => {
       unit: 'kg',
       price_per_unit: '',
       category: '',
-      is_organic: false,
+      is_organic: 0,
       status: 'available',
       user_id: userId
     });

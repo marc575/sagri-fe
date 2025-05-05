@@ -12,10 +12,10 @@ function Footer() {
       <img src={logo} alt="logo" width="50" className='rounded-xl'/>
       <p className='font-semibold text-white text-center'>&copy; Copyrights, 2025 Tous droits reservés, <a className='text-primary' href="https://www.linkedin.com/in/marc-tatchou-85891a243/">Tatchou Marc</a></p>
       <div className='flex gap-5'>
-        <a href=""><img src={l} alt="" width="30" /></a>
-        <a href=""><img src={x} alt="" width="30"/></a>
-        <a href=""><img src={i} alt="" width="30"/></a>
-        <a href=""><img src={f} alt="" width="30"/></a>
+        <a href=""><img src={l} alt="" width="25" /></a>
+        <a href=""><img src={x} alt="" width="25"/></a>
+        <a href=""><img src={i} alt="" width="25"/></a>
+        <a href=""><img src={f} alt="" width="25"/></a>
       </div>
     </div>
     </div>

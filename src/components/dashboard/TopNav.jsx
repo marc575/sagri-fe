@@ -4,6 +4,7 @@ import Avatar from '../ui/Avatar';
 import { useAuth } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiUser, FiMail, FiPhone, FiMapPin, FiCalendar, FiGlobe, FiInfo, FiCheckCircle, FiAward, FiLock, FiEye, FiEyeOff, FiImage, FiCrop } from 'react-icons/fi';
+import ProfileUpdateModal from './ProfileUpdateModal';
 
 function TopNav() {
   const { user, logout, changePassword, registerComplete } = useAuth();
@@ -21,6 +22,8 @@ function TopNav() {
   });
   const [selectedUser, setSelectedUser] = useState(user);
   const [showModal, setShowModal] = useState(false);
+  
+  const [showModalUpdateProfile, setShowModalUpdateProfile] = useState(false);
 
   const [formDataProfile, setFormDataProfile] = useState({
     phone: user?.phone || '',
@@ -228,22 +231,26 @@ function TopNav() {
               className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
               <li>
                 <a href='/me'>
-                  Mon Compte
+                  Tableau de bord
                 </a>
               </li>
               <li>
                 <a onClick={() => openModal(user)}>
-                  Profile
+                  Mon Compte
                 </a>
               </li>
-              <li>
-                <a onClick={() => openModalProfile()}>
-                  Completer le profile
-                </a>
-              </li>
+              {
+                user?.status === 0 ? (
+                  <li>
+                    <a onClick={() => openModalProfile()}>
+                      Completer le profil
+                    </a>
+                  </li>
+                ) : null
+              }
               <li>
                 <a onClick={() => openModalPassword()}>
-                  Mot de Passe
+                  Nouveau mot de Passe
                 </a>
               </li>
               <li>
@@ -813,13 +820,30 @@ function TopNav() {
           </div>
 
           {/* Footer */}
-          <div className="border-t px-6 py-4 bg-gray-50 flex justify-end">
+          <div className="border-t px-6 py-4 bg-gray-50 flex gap-4 justify-end">
             <button 
               onClick={() => closeModal()}
-              className="btn btn-primary"
+              className="btn btn-ghost"
             >
               Fermer
             </button>
+
+            <div>
+              <button 
+                className="btn btn-primary"
+                onClick={() => setShowModalUpdateProfile(true)}
+              >
+                Modifier le profil
+              </button>
+
+              {showModalUpdateProfile && (
+                <ProfileUpdateModal 
+                  user={user}
+                  onClose={() => setShowModalUpdateProfile(false)}
+                />
+              )}
+            </div>
+
           </div>
         </motion.div>
       </motion.div>

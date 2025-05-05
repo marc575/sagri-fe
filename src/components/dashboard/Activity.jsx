@@ -103,7 +103,7 @@ const Activity = ({ userId }) => {
               <div className="flex items-center gap-3 mb-2">
                 <FiActivity className="text-xl text-secondary" />
                 <div className="card-title text-secondary text-lg space-x-2">
-                  <h2>{activity.name} <span className="p-2 text-xs badge badge-secondary"><FiTag />{activity.category}</span></h2>
+                  <h2>{activity.name} <span className="p-2 text-xs badge bg-[#FDFAD0] font-normal"><FiTag />{activity.category}</span></h2>
                 </div>
               </div>
               

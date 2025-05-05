@@ -4,6 +4,22 @@ import Avatar from '../ui/Avatar';
 import { FiPhone, FiMail, FiFolder, FiMapPin, FiActivity } from 'react-icons/fi';
 
 function Profile({user}) {
+
+    const getRolesLabel = (role) => {
+        const roles = {
+          farmer: 'Producteur Agricole',
+          buyer: 'Achéteur',
+          admin: 'Administrateur',
+        };
+        return <span className={`badge ${roleColors[role]}`}><FiActivity /> {roles[role] || role}</span>;
+    };
+
+    const roleColors = {
+        buyer: 'bg-blue-100 text-blue-800',
+        farmer: 'bg-green-100 text-green-800',
+        admin: 'bg-red-100 text-red-800'
+    };
+
   return (
     <div>
         <div className="card bg-base-100 w-full shadow-sm border border-[#FDFAD0]">
@@ -15,12 +31,12 @@ function Profile({user}) {
                 />
             </figure>
             <div className="card-body">
-                <div className='absolute top-54'>
+                <div className='absolute top-46'>
                     <Avatar user={user} className='w-100 rounded-full'/>
                 </div>
                 <h2 className="card-title text-secondary text-2xl pt-8 capitalize">
                     {user?.name}
-                    <span className="badge badge-secondary"><FiActivity /> {user?.role}</span>
+                    {getRolesLabel(user?.role)}
                 </h2>
                 <p>{user?.bio}</p>
                 <div className="card-actions flex justify-between mt-3">

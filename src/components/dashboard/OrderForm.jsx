@@ -22,12 +22,11 @@ const OrderForm = ({ cart, cartTotal, currentUserId, onSuccess, onError, onCance
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
       // Préparer les données pour l'API
       const orderData = {
         buyer_id: currentUserId,
-        farmer_id: formData.farmer_id,
+        farmer_id: cart[0]?.user_id,
         total_amount: cartTotal,
         delivery_type: formData.delivery_type,
         delivery_address: formData.delivery_address,
@@ -42,8 +41,6 @@ const OrderForm = ({ cart, cartTotal, currentUserId, onSuccess, onError, onCance
       };
 
       await postOrder(orderData);
-
-      if (!response.ok) throw new Error('Erreur API');
 
       onSuccess();
     } catch (error) {

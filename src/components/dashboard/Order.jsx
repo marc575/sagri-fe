@@ -124,9 +124,17 @@ export default function Order() {
                     hour: '2-digit',
                     minute: '2-digit'
                     })}</h3>
-              <p className="text-sm text-secondary">
-                Acheteur: {order?.buyer?.name} • {order?.total_amount} FCFA • {getStatusLabel(order?.status)}
-              </p>
+                {order?.buyer?.id === user?.id ? (
+                <p className="text-sm text-secondary">
+                  Fournisseur: {order?.farmer?.name} • {order?.total_amount} FCFA • {getStatusLabel(order?.status)}
+                </p>
+                ) : null}
+
+                {order?.farmer?.id === user?.id ? (
+                <p className="text-sm text-secondary">
+                  Acheteur: {order?.buyer?.name} • {order?.total_amount} FCFA • {getStatusLabel(order?.status)}
+                </p>
+                ) : null}
             </div>
             <div className="flex gap-4">
               <button
@@ -244,7 +252,7 @@ export default function Order() {
                         </thead>
                         <tbody>
                         {selectedOrder.items.map((item) => (
-                            <tr key={item.id} className="border-b hover:bg-gray-50">
+                            <tr key={item.id} className="border-b border-primary hover:bg-gray-50">
                             <td className="p-3">
                                 <div className="flex items-center gap-3">
                                 {item.product.image ? (
@@ -299,7 +307,7 @@ export default function Order() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t px-6 py-4 bg-gray-50 flex justify-between items-center">
+                <div className="border-t border-secondary  px-6 py-4 bg-gray-50 flex justify-between items-center">
                 <button 
                     onClick={closeModal}
                     className="btn btn-ghost"
@@ -359,8 +367,9 @@ export default function Order() {
                   value={form.delivery_type}
                   onChange={handleChange}
                   className="select select-bordered w-full"
+                  disabled
                 >
-                  <option value="pickup">Pickup</option>
+                  <option value="pickup">Livreur Indépendant</option>
                   <option value="buyer_delivery">Livraison par acheteur</option>
                   <option value="farmer_delivery">Livraison par fermier</option>
                 </select>
@@ -375,6 +384,7 @@ export default function Order() {
                   onChange={handleChange}
                   className="input input-bordered w-full"
                   placeholder="Entrez l'adresse"
+                  disabled={ user?.id === selectedOrder?.buyer.id ? false : true }
                 />
               </div>
 
@@ -385,6 +395,7 @@ export default function Order() {
                   value={form.status}
                   onChange={handleChange}
                   className="select select-bordered w-full"
+                  disabled={ user?.id === selectedOrder?.farmer.id ? false : true }
                 >
                   <option value="pending">En attente</option>
                   <option value="confirmed">Confirmée</option>

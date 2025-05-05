@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiFilter, FiSearch, FiStar, FiHeart, FiShoppingCart, FiTag, FiPackage, FiRefreshCw, FiGrid, FiList, FiImage, FiDollarSign, FiSliders, FiBarChart2, FiX, FiTrash2, FiArrowRight, FiAlertCircle } from 'react-icons/fi';
+import { FiFilter, FiSearch, FiStar, FiHeart, FiShoppingCart, FiTag, FiPackage, FiRefreshCw, FiGrid, FiList, FiImage, FiDollarSign, FiSliders, FiBarChart2, FiX, FiTrash2, FiArrowRight, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
 import { useProduct } from '../context/ProductContext';
 import Loading from '../components/ui/Loading';
 import Description from '../components/ui/Description';
@@ -15,7 +15,7 @@ const MarketPlace = () => {
   // États pour les filtres
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([50, 10000]);
   const [organicOnly, setOrganicOnly] = useState(false);
   const [statusFilter, setStatusFilter] = useState('all');
   const [sortOption, setSortOption] = useState('newest');
@@ -144,7 +144,7 @@ const MarketPlace = () => {
           <p className="text-gray-500 mt-1">{filteredProducts.length} produits disponibles</p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+        <div className="flex flex-row gap-3 w-full md:w-auto">
           <div className="relative flex-1 max-w-xl">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
               <FiSearch className="text-gray-400" />
@@ -167,13 +167,12 @@ const MarketPlace = () => {
               {showFilters ? 'Masquer' : 'Filtres'}
             </button>
           </div>
-
-          {/* Dans la section d'en-tête, ajoutez ce bouton */}
+          
           <button 
-            className="btn border-secondary text-secondary relative"
+            className="bg-primary px-4 py-2 rounded-2xl text-secondary relative"
             onClick={() => setShowCart(true)}
           >
-            <FiShoppingCart className="text-xl" />
+            <FiShoppingCart className="text-md text-white" />
             {cart.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {cart.length}
@@ -185,7 +184,7 @@ const MarketPlace = () => {
 
       {/* Panneau de filtres amélioré */}
       {showFilters && (
-        <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 mb-6">
+        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-center">
             {/* Catégorie avec icône */}
             <div>
@@ -216,9 +215,9 @@ const MarketPlace = () => {
                 </div>
                 <input
                   type="range"
-                  min="0"
+                  min="50"
                   max="10000"
-                  step="100"
+                  step="50"
                   value={priceRange[1]}
                   onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                   className="range range-primary w-full"
@@ -391,7 +390,7 @@ const MarketPlace = () => {
                   <div className="mt-4 flex justify-between items-center">
                     <button 
                       className={`btn btn-sm btn-secondary flex-1 ${product.status === 'sold_out' ? 'btn-disabled' : ''}`}
-                      disabled={product.status === 'sold_out'}
+                      disabled={product.status === 'sold_out' || product?.user_id === user?.id }
                       onClick={() => addToCart(product)}
                     >
                       <FiShoppingCart className="mr-2" />
@@ -400,7 +399,7 @@ const MarketPlace = () => {
                   </div>
 
                   {product.is_organic ? (
-                    <div className="absolute top-3 right-3 bg-success/10 text-success px-2 py-1 rounded-full text-xs flex items-center">
+                    <div className="absolute top-3 right-3 bg-secondary text-white px-2 py-1 rounded-full text-xs flex items-center">
                       Bio
                     </div>
                   ): null}
@@ -488,7 +487,7 @@ const MarketPlace = () => {
                         >
                           -
                         </button>
-                        <span className="px-3 py-1 border-x border-secondary">{item.quantity}</span>
+                        <span className="px-3 py-1 border-x border-secondary">{item.quantity} {item.unit}</span>
                         <button 
                           className="px-2 py-1 text-lg"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
@@ -534,7 +533,7 @@ const MarketPlace = () => {
 
     {/* Modal de commande */}
     <div className={`modal ${showOrderModal ? 'modal-open' : ''}`}>
-    <div className="modal-box max-w-3xl relative">
+    <div className="modal-box max-w-3xl relative inset-0 backdrop-blur-sm z-50">
       {orderStatus === 'success' ? (
         <div className="text-center p-6">
           <FiCheckCircle className="text-5xl text-green-500 mx-auto mb-4" />
