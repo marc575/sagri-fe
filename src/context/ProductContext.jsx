@@ -89,12 +89,12 @@ export const ProductProvider = ({ children }) => {
 
         await axios.get('/sanctum/csrf-cookie');
         await axios.post('/api/products', formData, {
-        headers: { 
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-            'Content-Type': 'multipart/form-data'
-            },
-            validateStatus: (status) => status < 500
+          headers: { 
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              'Content-Type': 'multipart/form-data'
+              },
+              validateStatus: (status) => status < 500
         });
         await getProducts(token);
         await getAllProducts(token);
@@ -117,7 +117,7 @@ export const ProductProvider = ({ children }) => {
         }
       });
       await axios.get('/sanctum/csrf-cookie');
-      await axios.patch(`/api/products/${id}`, formData, {
+      await axios.put(`/api/products/${id}`, formData, {
         headers: { 
             Authorization: `Bearer ${token}`,
             Accept: "application/json",

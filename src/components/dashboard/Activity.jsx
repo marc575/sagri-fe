@@ -4,8 +4,10 @@ import { FiPlus, FiEdit2, FiTrash2, FiX, FiActivity, FiTag, FiAlignLeft } from '
 import Loading from '../ui/Loading';
 import { useActivity } from '../../context/ActivityContext';
 import Description from '../ui/Description';
+import { useAuth } from '../../context/AuthContext';
 
 const Activity = ({ userId }) => {
+  const { user } = useAuth();
   const { activities, updateActivity, postActivity, deleteActivity, activitiesLoading } = useActivity();
   let isLoading = activitiesLoading;
   const [modalOpenActivity, setModalOpenActivity] = useState(false);
@@ -80,13 +82,17 @@ const Activity = ({ userId }) => {
   return (
     <div className="container mx-auto py-12">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-xl font-bold text-secondary">Mes Activités</h1>
-        <button
-          onClick={() => openModalActivity()}
-          className="btn btn-primary gap-2 btn-sm"
-        >
-          <FiPlus /> Nouvelle Activité
-        </button>
+        <h1 className="text-xl font-bold text-secondary">Activités</h1>
+            {
+              user?.role === "farmer" ? (
+                <button
+                  onClick={() => openModalActivity()}
+                  className="btn btn-primary gap-2 btn-sm"
+                >
+                  <FiPlus /> Nouvelle Activité
+                </button>
+              ) : null
+            }
       </div>
 
       {/* Activities Grid */}
@@ -113,21 +119,24 @@ const Activity = ({ userId }) => {
                   <Description description={activity.description} />
                 </div>
               )}
-
-              <div className="card-actions justify-end mt-2">
-                <button 
-                  onClick={() => openModalActivity(activity)} 
-                  className="btn btn-sm btn-ghost gap-1 border-success hover:bg-success"
-                >
-                  <FiEdit2 /> Modifier
-                </button>
-                <button 
-                  onClick={() => handleDeleteActivity(activity.id)} 
-                  className="btn btn-sm btn-ghost text-error gap-1 border-error hover:bg-error hover:text-white"
-                >
-                  <FiTrash2 /> Supprimer
-                </button>
-              </div>
+              {
+                user?.role === "farmer" ? (
+                  <div className="card-actions justify-end mt-2">
+                    <button 
+                      onClick={() => openModalActivity(activity)} 
+                      className="btn btn-sm btn-ghost gap-1 border-success hover:bg-success"
+                    >
+                      <FiEdit2 /> Modifier
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteActivity(activity.id)} 
+                      className="btn btn-sm btn-ghost text-error gap-1 border-error hover:bg-error hover:text-white"
+                    >
+                      <FiTrash2 /> Supprimer
+                    </button>
+                  </div>
+                ) : null
+              }
             </div>
           </motion.div>
         ))}

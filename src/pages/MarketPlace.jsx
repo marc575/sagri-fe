@@ -6,6 +6,7 @@ import Description from '../components/ui/Description';
 import TopNav from '../components/dashboard/TopNav';
 import OrderForm from '../components/dashboard/OrderForm';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/dashboard/Footer';
 
 const MarketPlace = () => {
   const { allProducts, loading, error } = useProduct();
@@ -169,7 +170,7 @@ const MarketPlace = () => {
           </div>
           
           <button 
-            className="bg-primary px-4 py-2 rounded-2xl text-secondary relative"
+            className="bg-secondary px-4 py-2 rounded-2xl text-secondary relative"
             onClick={() => setShowCart(true)}
           >
             <FiShoppingCart className="text-md text-white" />
@@ -600,6 +601,7 @@ const MarketPlace = () => {
       )}
     </div>
     </div>
+    <Footer/>
     </>
   );
 };

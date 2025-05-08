@@ -4,7 +4,7 @@ function Avatar({user}) {
   return (
     <>
         {user.profile_picture ?
-            <div className="w-32">
+            <div className="w-40">
                 <img src={`http://localhost:8000/storage/${user.profile_picture}`} className="rounded-full"/>
             </div>
         : 

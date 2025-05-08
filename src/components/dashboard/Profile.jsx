@@ -2,6 +2,7 @@ import React from 'react';
 import img from '../../assets/img/1.jpg'
 import Avatar from '../ui/Avatar';
 import { FiPhone, FiMail, FiFolder, FiMapPin, FiActivity } from 'react-icons/fi';
+import Description from '../ui/Description';
 
 function Profile({user}) {
 
@@ -38,7 +39,7 @@ function Profile({user}) {
                     {user?.name}
                     {getRolesLabel(user?.role)}
                 </h2>
-                <p>{user?.bio}</p>
+                <Description description={user?.bio} />
                 <div className="card-actions flex justify-between mt-3">
                     <div className="badge bg-[#FDFAD0] italic p-4 text-secondary"><FiMapPin /> {user?.address}</div>
                     <div className='space-x-4 space-y-2 md:space-y-0'>

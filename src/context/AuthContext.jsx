@@ -199,6 +199,7 @@ export const AuthProvider = ({ children }) => {
       changePassword,
       forgotPassword,
       resetPassword,
+      getUser,
       isAuthenticated
     }}>
       {children}

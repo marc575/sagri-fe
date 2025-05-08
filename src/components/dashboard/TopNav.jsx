@@ -201,10 +201,10 @@ function TopNav() {
 
   return (
     <>
-    <div className='bg-[#FDFAD0] shadow-sm'>
+    <div className='bg-primary shadow-sm py-2'>
       <div className="navbar container mx-auto">
         <div className="flex-1">
-          <a className="text-xl" href='/dashboard'><img src={logo} alt="logo" width="50"/> </a>
+          <a href='/dashboard'><img src={logo} className="rounded-xl"  alt="logo" width="50"/> </a>
         </div>
         <div className="flex gap-2">
         <label className="input">
@@ -709,17 +709,13 @@ function TopNav() {
           className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-primary to-secondary p-6 text-white">
+          <div className="p-6 bg-primary text-white">
             <div className="flex justify-between items-start">
               <div>
                 <h2 className="text-2xl font-bold flex items-center gap-2">
                   <Avatar user={user} />
                   {user.name}
                 </h2>
-                <div className="flex gap-3 mt-2">
-                  {getRoleLabel(user.role)}
-                  {getStatusLabel(user.status)}
-                </div>
               </div>
               <button 
                 onClick={() => closeModal()}
@@ -732,6 +728,10 @@ function TopNav() {
 
           {/* Body */}
           <div className="overflow-y-auto p-6 flex-1">
+            <div className="flex gap-3 mb-5">
+              {getRoleLabel(user.role)}
+              {getStatusLabel(user.status)}
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Colonne 1 - Informations de base */}
               <div className="space-y-4">

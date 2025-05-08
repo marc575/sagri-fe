@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 
 const ProfileUpdateModal = ({ user, onClose}) => {
+  const { getUser } = useAuth();
   const [formDataProfileUpdate, setFormDataProfileUpdate] = useState({
     name: '',
     phone: '',
@@ -77,8 +78,7 @@ const ProfileUpdateModal = ({ user, onClose}) => {
 
       // Appel API
       const response = await axios.put('/api/user', formDataToSend, config);
-      
-      localStorage.setItem('user', response.data.user);
+      await getUser(localStorage.getItem('token'));
       onClose();
     } catch (error) {
       if (error.response?.data?.errors) {

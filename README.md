@@ -1,262 +1,76 @@
-# Fil Rouge
+Ce projet est une application frontend moderne construite avec **React 19**, **Vite**, et **Tailwind CSS**, intégrant de puissants outils pour les formulaires, la validation, les animations et la gestion d’état.
 
-## Dependences
+---
+
+## 🚀 Stack Technique
+
+- ⚛️ **React 19** – Bibliothèque JavaScript moderne pour construire des interfaces utilisateur.
+- ⚡ **Vite** – Build tool ultra-rapide pour le développement frontend.
+- 🎨 **Tailwind CSS** – Framework CSS utilitaire pour des interfaces réactives.
+- 🌀 **Framer Motion** & **Animate.css** – Pour des animations fluides.
+- 📦 **Zod + React Hook Form** – Gestion et validation des formulaires.
+- 🔧 **Zustand** – Store léger pour la gestion d’état global.
+- 🌐 **Axios** – Pour les requêtes HTTP.
+- 🧪 **ESLint** – Pour le linting du code.
+- 🌸 **DaisyUI** – Composants UI prêts à l'emploi pour Tailwind CSS.
+
+---
+
+## 📦 Installation
+
 ```bash
-npm install tailwindcss @tailwindcss/postcss postcss
-npm i json-server  
-npm i react-router-dom
-npm install axios 
-npm install animate.css --save
-npm i swiper
-npm install react-icons
-npm install react-toastify
-npm install zustand
-npm install @tanstack/react-query
-npm install framer-motion
-npm install react-awesome-reveal
-npm install react-lazy-load-image-component
-npm i -D daisyui@latest
-```
+git clone <url-du-repo>
+cd frontend
+npm install
+````
 
-- react-icons → Bibliothèque d'icônes (Font Awesome, Material Icons, etc.)
-- react-toastify → Notifications élégantes
-- zustand → Léger et simple (alternative à Redux)
-- react-query → Gestion des requêtes API (cache, mutations, etc.)
-- framer-motion → Animations fluides
-- react-awesome-reveal → Animations au scroll
-- react-lazy-load-image-component → Chargement différé des images
-- daisyUI (pour Tailwind CSS) → Composants UI prêts à l'emploi
+---
 
-## Lancement
+## 🧪 Scripts disponibles
+
+* `npm run dev` : Lance le serveur de développement Vite.
+* `npm run build` : Build du projet pour la production.
+* `npm run preview` : Prévisualise le build de production localement.
+* `npm run lint` : Vérifie la qualité du code avec ESLint.
+
+---
+
+## 🔍 Fonctionnalités incluses
+
+* ✅ Gestion de formulaires avec validation via `React Hook Form` et `Zod`
+* 🌈 Animations avec `Framer Motion` et `Animate.css`
+* ⚡ Chargement d'images optimisé via `react-lazy-load-image-component`
+* 🧠 Gestion d’état centralisé avec `Zustand`
+* 📦 Design réactif et composantiels avec `Tailwind CSS` + `DaisyUI`
+* 🌍 Intégration facile avec des APIs via `Axios`
+
+---
+
+## 🌐 Lancer le projet
+
 ```bash
-npx json-server db.json
 npm run dev
 ```
 
-Fonctionnalités clés :
-Validation robuste : Utilisation de Zod pour des schémas de validation complets
+Puis ouvre [http://localhost:5173](http://localhost:5173) dans ton navigateur.
 
-Gestion d'état optimisée : Context API avec useCallback pour éviter les rendus inutiles
+---
 
-UI moderne : Intégration de Tailwind CSS et DaisyUI
+## ✅ Bonnes pratiques
 
-Sécurité : Protection des routes et stockage sécurisé du token
+* Utilise `Zod` pour la validation stricte côté client.
+* Structure ton store global avec `Zustand` pour éviter le prop drilling.
+* Crée des composants réutilisables avec Tailwind et DaisyUI.
+* Lint régulièrement ton code avec `npm run lint`.
 
-Expérience utilisateur : Feedback visuel pendant le chargement et pour les erreurs
+---
 
-Optimisation : Mémoïsation des fonctions et gestion propre des effets
+## 📄 Licence
 
-Extensibilité : Architecture facile à étendre pour des besoins futurs
+Ce projet est sous licence **MIT**.
 
-Fonctionnalités clés :
-Affichage des projets sous forme de cartes responsive
+---
 
-Modales animées pour créer/modifier des projets
+## ✨ Auteur
 
-Validation des formulaires intégrée
-
-Animations fluides avec Framer Motion
-
-Design moderne avec Tailwind et DaisyUI
-
-Statuts visuels avec badges colorés
-
-Responsive design pour tous les appareils
-
-Gestion des produits :
-
-Affichage sous forme de cartes avec image
-
-Tous les champs du schéma sont pris en compte
-
-Gestion des images (affichage et upload)
-
-Modale de formulaire :
-
-Formulaire complet avec tous les champs
-
-Sélecteurs pour les unités, catégories et statuts
-
-Case à cocher pour le statut bio
-
-Upload d'image
-
-UI/UX :
-
-Animations fluides avec Framer Motion
-
-Design responsive avec Tailwind
-
-Icônes pertinentes avec react-icons
-
-Badges colorés pour le statut
-
-Fonctionnalités :
-
-Création, modification et suppression
-
-Liaison avec les projets
-
-Gestion des quantités et prix
-
-2. Points clés de l'implémentation
-Design moderne :
-
-Utilisation de DaisyUI pour les composants (cartes, boutons, modales)
-
-Icônes React-icons pour une meilleure visibilité
-
-Animations fluides avec Framer Motion
-
-Fonctionnalités :
-
-CRUD complet avec modales popup
-
-Sélecteur de catégories prédéfinies
-
-Gestion des états de chargement
-
-Validation de formulaire intégrée
-
-Optimisations :
-
-Affichage responsive (grille sur 3 colonnes en grand écran)
-
-Limitation de la description à 3 lignes avec line-clamp-3
-
-Animation lors de l'apparition des éléments
-
-Fonctionnalités implémentées :
-Système de panier complet :
-
-Ajout/retrait d'articles
-
-Modification des quantités
-
-Calcul automatique du total
-
-Panneau Offcanvas :
-
-Affichage responsive
-
-Animation d'ouverture/fermeture
-
-Récapitulatif clair des articles
-
-Page de commande :
-
-Formulaire de livraison complet
-
-Choix de méthode de paiement
-
-Récapitulatif de la commande
-
-Confirmation de commande
-
-Expérience utilisateur :
-
-Indicateur visuel du nombre d'articles
-
-Feedback visuel lors des interactions
-
-Validation de formulaire
-
-États de chargement
-
-Système de panier complet :
-
-Ajout/retrait d'articles
-
-Modification des quantités
-
-Calcul automatique du total
-
-Panneau Offcanvas :
-
-Affichage responsive
-
-Animation d'ouverture/fermeture
-
-Récapitulatif clair des articles
-
-Page de commande :
-
-Formulaire de livraison complet
-
-Choix de méthode de paiement
-
-Récapitulatif de la commande
-
-Confirmation de commande
-
-Expérience utilisateur :
-
-Indicateur visuel du nombre d'articles
-
-Feedback visuel lors des interactions
-
-Validation de formulaire
-
-États de chargement
-
-. Adaptations pour votre schéma d'API
-Farmer_id : J'ai supposé que tous les produits du panier venaient du même fermier. Si ce n'est pas le cas, vous devrez :
-
-Soit gérer les commandes multi-fermiers
-
-Soit regrouper les produits par fermier avant de passer commande
-
-Statut : Mis par défaut à "pending" comme requis
-
-Items : Formaté exactement comme demandé avec :
-
-product_id
-
-quantity
-
-unit_price
-
-total_price
-
-Validation : Tous les champs requis sont inclus :
-
-buyer_id (récupéré de l'utilisateur connecté)
-
-farmer_id
-
-total_amount
-
-delivery_type
-
-status
-
-items
-
-Fonctionnalités clés :
-Expérience utilisateur complète :
-
-Modal propre avec états de chargement
-
-Retour visuel en cas de succès/échec
-
-Panier vidé après commande réussie
-
-Adapté à votre API :
-
-Structure de données conforme
-
-Tous les champs requis inclus
-
-Gestion des erreurs
-
-UI professionnelle :
-
-Icônes pour une meilleure lisibilité
-
-Options de livraison claires
-
-Récapitulatif visible pendant la commande
-
-Responsive :
-
-Adapté aux mobiles et desktop
+Développé par Tatchou Marc.

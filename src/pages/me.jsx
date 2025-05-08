@@ -15,8 +15,14 @@ export default function me() {
         user?.status === 1 ? (
           <>
             <Order />
-            <Product userId={user?.id} />
-            <Project userId={user?.id} />
+            {
+              user?.role === "farmer" ? (
+                <>
+                  <Product userId={user?.id} />
+                  <Project userId={user?.id} />
+                </>
+            ) : null
+          }
           </>
         ) : null
       }

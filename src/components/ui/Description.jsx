@@ -20,7 +20,7 @@ const Description = ({ description }) => {
         </motion.p>
       </AnimatePresence>
       
-      {!isExpanded && description.length > 100 && (
+      {!isExpanded && description && description.length > 100 && (
         <button 
           onClick={() => setIsExpanded(true)}
           className="text-sm text-primary mt-1 hover:underline"
